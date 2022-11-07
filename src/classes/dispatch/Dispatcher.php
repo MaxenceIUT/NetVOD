@@ -3,6 +3,7 @@
 namespace iutnc\netvod\dispatch;
 
 use iutnc\netvod\action\ShowSeriesDetailsAction;
+use iutnc\netvod\action\ViewSerieAction;
 
 class Dispatcher
 {
@@ -18,7 +19,7 @@ class Dispatcher
     {
         switch ($this->action) {
             case 'view-serie':
-                $action = new \iutnc\netvod\action\ViewSerieAction();
+                $action = new ViewSerieAction();
                 $html = $action->execute();
                 break;
             case 'show-series-details':
