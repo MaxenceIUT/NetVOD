@@ -29,12 +29,11 @@ class ShowSeriesDetailsAction extends Action
         $html .= "<ul>";
         foreach ($episodes as $episode) {
 
-            $html .= "<li>Épisode " . $episode['numero'] . ": " . $episode['titre'];
-            $html .= "<a href='index.php?action=show-episode-details&id=" . $episode['id'] . "'>Voir détails</a>";
+            $nom = "Épisode " . $episode['numero'] . ": " . $episode['titre'];
+            $html .= "<li><a href='index.php?action=show-episode-details&id=" . $episode['id'] . "'>$nom</a>";
             $html .= $episode['duree'] . " minutes</li>";
         }
         $html .= "</ul>";
         return $html;
-        // TODO: Implement execute() method.
     }
 }
