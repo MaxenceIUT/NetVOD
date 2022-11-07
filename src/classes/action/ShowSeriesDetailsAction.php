@@ -27,10 +27,9 @@ class ShowSeriesDetailsAction extends Action
         $nbepisodes = count($episodes);
         $html .= "<p>" . $nbepisodes . " épisodes</p>";
         foreach ($episodes as $episode) {
-            $html .= "<p>Episode" . $episode['numero'] . "</p>";
-            $html .= "<p>" . $episode['titre'] . "</p>";
-            $html .= "<p>" . $episode['resume'] . " minutes</p>";
-            $html .= "<p>" . $episode['duree'] . "</p>";
+            $html .= "<li>Épisode " . $episode['numero'] . ": " . $episode['titre'];
+            $html .= "<p>" . $episode['resume'] . "</p>";
+            $html .= $episode['duree'] . " minutes</li>";
         }
         return $html;
         // TODO: Implement execute() method.
