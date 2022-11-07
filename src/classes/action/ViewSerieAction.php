@@ -14,10 +14,13 @@ class ViewSerieAction extends Action
 
         $pdo = ConnectionFactory::getConnection();
         $statement = $pdo->query("SELECT id FROM serie");
+
+        $html .= "<ul>";
         while ($serie = $statement->fetch()) {
             $serie = new Serie($serie['id']);
             $html .= "<div class='serie'>";
-            $html .= "<h2>" . $serie->titre . "</h2>";
+            $href = "index.php?action=show-series-details&id=" . $serie->id;
+            $html .= "<li><a href=$href> $serie->titre</a></li>";
             $html .= "</div>";
         }
 
