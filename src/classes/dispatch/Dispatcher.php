@@ -15,6 +15,10 @@ class Dispatcher
     public function run(): void
     {
         switch ($this->action) {
+            case 'view-serie':
+                $action = new \iutnc\netvod\action\ViewSerieAction();
+                $html = $action->execute();
+                break;
             default:
                 $html = "<h1>Bienvenue !</h1>";
                 break;
