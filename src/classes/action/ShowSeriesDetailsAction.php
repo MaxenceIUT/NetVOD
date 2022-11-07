@@ -14,10 +14,10 @@ class ShowSeriesDetailsAction extends Action
         $pdo = ConnectionFactory::getConnection();
         $serie = new Serie($_GET['id']);
         $html .= "<h1>Titre:" . $serie->titre . "</h1>";
-        $html .= "<img src='assets/img/" . $serie->img . "' alt=''>";
+        $html .= "<img src='assets/img/" . $serie->image . "' alt=''>";
         $html .= "<p>Résumé:" . $serie->descriptif . "</p>";
         $html .= "<p>Année: " . $serie->annee . "</p>";
-        $html .= "<p>Date d'ajout: " . $serie->date_ajout . "</p>";
+        $html .= "<p>Date d'ajout: " . $serie->dateAjout . "</p>";
         $idS = $serie->id;
         $queryEpisodes = "SELECT * FROM episode WHERE serie_id = :id";
         $statement = $pdo->prepare($queryEpisodes);
