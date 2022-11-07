@@ -1,0 +1,10 @@
+{
+  "name": "iutnc/netvod",
+  "description": "NetVOD - The greatest SVOD platform ever",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "iutnc\\netvod\\": "./src/classes"
+    }
+  }
+}
