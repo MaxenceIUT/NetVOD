@@ -1,6 +1,6 @@
 ### NetVOD ignore
 
-video/
+assets/video/
 db.config.ini
 
 ### Composer
