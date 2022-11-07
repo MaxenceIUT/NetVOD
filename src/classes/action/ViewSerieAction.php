@@ -28,4 +28,9 @@ class ViewSerieAction extends Action
         return $html;
     }
 
+    public function getActionName(): string
+    {
+        return "view-serie";
+    }
+
 }

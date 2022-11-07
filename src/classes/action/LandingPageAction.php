@@ -15,4 +15,9 @@ class LandingPageAction extends Action
         return $html;
     }
 
+    public function getActionName(): string
+    {
+        return "landing-page";
+    }
+
 }

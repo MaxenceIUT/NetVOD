@@ -40,4 +40,9 @@ class LoginAction extends Action
         }
     }
 
+    public function getActionName(): string
+    {
+        return "login";
+    }
+
 }

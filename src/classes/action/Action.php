@@ -18,4 +18,6 @@ abstract class Action
 
     abstract public function execute(): string;
 
+    abstract public function getActionName(): string;
+
 }

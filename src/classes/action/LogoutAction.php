@@ -19,4 +19,8 @@ class LogoutAction extends Action
         }
     }
 
+    public function getActionName(): string
+    {
+        return "logout";
+    }
 }

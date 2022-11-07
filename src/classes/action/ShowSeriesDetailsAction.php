@@ -36,4 +36,9 @@ class ShowSeriesDetailsAction extends Action
         $html .= "</ul>";
         return $html;
     }
+
+    public function getActionName(): string
+    {
+        return "show-series-details";
+    }
 }

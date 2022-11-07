@@ -19,4 +19,9 @@ class ShowEpisodeDetailsAction extends Action
         $html .= "</video>";
         return $html;
     }
+
+    public function getActionName(): string
+    {
+        return "show-episode-details";
+    }
 }

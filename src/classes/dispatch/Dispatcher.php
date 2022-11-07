@@ -2,60 +2,33 @@
 
 namespace iutnc\netvod\dispatch;
 
-use iutnc\netvod\action\AccountAction;
-use iutnc\netvod\action\LandingPageAction;
-use iutnc\netvod\action\LoginAction;
-use iutnc\netvod\action\LogoutAction;
-use iutnc\netvod\action\RegisterAction;
-use iutnc\netvod\action\ShowEpisodeDetailsAction;
-use iutnc\netvod\action\ShowSeriesDetailsAction;
-use iutnc\netvod\action\ViewSerieAction;
-
 class Dispatcher
 {
 
     protected ?string $action;
+    protected array $actions;
 
     public function __construct()
     {
         $this->action = $_GET['action'];
+
+        $actionsName = array_diff(scandir('src\classes\action'), array('..', '.', 'Action.php'));
+        foreach ($actionsName as $actionName) {
+            $actionName = str_replace('.php', '', $actionName);
+            $actionClass = "iutnc\\netvod\\action\\$actionName";
+            $createdAction = new $actionClass();
+            $this->actions[$createdAction->getActionName()] = $createdAction;
+        }
     }
 
     public function run(): void
     {
-        switch ($this->action) {
-            case 'view-serie':
-                $action = new ViewSerieAction();
-                $html = $action->execute();
-                break;
-            case 'show-series-details':
-                $action = new ShowSeriesDetailsAction();
-                $html = $action->execute();
-                break;
-            case 'show-episode-details':
-                $action = new ShowEpisodeDetailsAction();
-                $html = $action->execute();
-                break;
-            case 'login':
-                $action = new LoginAction();
-                $html = $action->execute();
-                break;
-            case 'register':
-                $action = new RegisterAction();
-                $html = $action->execute();
-                break;
-            case 'logout':
-                $action = new LogoutAction();
-                $html = $action->execute();
-                break;
-            case 'account':
-                $action = new AccountAction();
-                $html = $action->execute();
-                break;
-            default:
-                $action = new LandingPageAction();
-                $html = $action->execute();
-                break;
+        if (isset($this->actions[$this->action])) {
+            $action = $this->actions[$this->action];
+            $html = $action->execute();
+        } else {
+            $action = $this->actions['landing-page'];
+            $html = $action->execute();
         }
         $this->renderPage($html);
     }

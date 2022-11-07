@@ -46,4 +46,9 @@ class RegisterAction extends Action
         }
     }
 
+    public function getActionName(): string
+    {
+        return "register";
+    }
+
 }
