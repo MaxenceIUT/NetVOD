@@ -2,6 +2,7 @@
 
 namespace iutnc\netvod\dispatch;
 
+use iutnc\netvod\action\ShowEpisodeDetailsAction;
 use iutnc\netvod\action\ShowSeriesDetailsAction;
 use iutnc\netvod\action\ViewSerieAction;
 
@@ -24,6 +25,10 @@ class Dispatcher
                 break;
             case 'show-series-details':
                 $action = new ShowSeriesDetailsAction();
+                $html = $action->execute();
+                break;
+            case 'show-episode-details':
+                $action = new ShowEpisodeDetailsAction();
                 $html = $action->execute();
                 break;
             default:

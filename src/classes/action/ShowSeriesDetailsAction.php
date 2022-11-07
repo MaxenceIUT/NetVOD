@@ -26,11 +26,14 @@ class ShowSeriesDetailsAction extends Action
         $episodes = $statement->fetchAll();
         $nbepisodes = count($episodes);
         $html .= "<p>" . $nbepisodes . " épisodes</p>";
+        $html .= "<ul>";
         foreach ($episodes as $episode) {
+
             $html .= "<li>Épisode " . $episode['numero'] . ": " . $episode['titre'];
-            $html .= "<p>" . $episode['resume'] . "</p>";
+            $html .= "<a href='index.php?action=show-episode-details&id=" . $episode['id'] . "'>Voir détails</a>";
             $html .= $episode['duree'] . " minutes</li>";
         }
+        $html .= "</ul>";
         return $html;
         // TODO: Implement execute() method.
     }
