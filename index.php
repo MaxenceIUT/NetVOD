@@ -1,5 +1,8 @@
 <?php
 
+use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\dispatch\Dispatcher;
+
 require_once 'vendor/autoload.php';
 
 session_start();

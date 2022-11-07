@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\deefy\users;
+namespace iutnc\netvod\users;
 
 class User
 {

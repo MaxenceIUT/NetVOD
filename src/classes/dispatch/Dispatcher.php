@@ -1,13 +1,6 @@
 <?php
 
-namespace iutnc\deefy\dispatch;
-
-use iutnc\deefy\action\AddPlaylistAction;
-use iutnc\deefy\action\AddPodcastTrackAction;
-use iutnc\deefy\action\AddUserAction;
-use iutnc\deefy\action\DisplayPlaylistAction;
-use iutnc\deefy\action\LogoutAction;
-use iutnc\deefy\action\SigninAction;
+namespace iutnc\netvod\dispatch;
 
 class Dispatcher
 {
@@ -37,8 +30,8 @@ class Dispatcher
             <head>
                 <meta charset="UTF-8">
                 <title>NetVOD</title>
-                <link rel="stylesheet" href="/assets/css/style.css">
-            </head> 
+                <link rel="stylesheet" href="assets/css/style.css">
+            </head>
             <body>
         END;
 

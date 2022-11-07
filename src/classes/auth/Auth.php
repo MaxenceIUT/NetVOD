@@ -1,9 +1,9 @@
 <?php
 
-namespace iutnc\deefy\auth;
+namespace iutnc\netvod\auth;
 
-use iutnc\deefy\db\ConnectionFactory;
-use iutnc\deefy\users\User;
+use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\users\User;
 
 class Auth
 {
