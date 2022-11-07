@@ -2,6 +2,11 @@
 
 namespace iutnc\netvod\dispatch;
 
+use iutnc\netvod\action\AccountAction;
+use iutnc\netvod\action\LandingPageAction;
+use iutnc\netvod\action\LoginAction;
+use iutnc\netvod\action\LogoutAction;
+use iutnc\netvod\action\RegisterAction;
 use iutnc\netvod\action\ShowEpisodeDetailsAction;
 use iutnc\netvod\action\ShowSeriesDetailsAction;
 use iutnc\netvod\action\ViewSerieAction;
@@ -31,8 +36,25 @@ class Dispatcher
                 $action = new ShowEpisodeDetailsAction();
                 $html = $action->execute();
                 break;
+            case 'login':
+                $action = new LoginAction();
+                $html = $action->execute();
+                break;
+            case 'register':
+                $action = new RegisterAction();
+                $html = $action->execute();
+                break;
+            case 'logout':
+                $action = new LogoutAction();
+                $html = $action->execute();
+                break;
+            case 'account':
+                $action = new AccountAction();
+                $html = $action->execute();
+                break;
             default:
-                $html = "<h1>Bienvenue !</h1>";
+                $action = new LandingPageAction();
+                $html = $action->execute();
                 break;
         }
         $this->renderPage($html);
@@ -49,6 +71,9 @@ class Dispatcher
                 <link rel="stylesheet" href="assets/css/style.css">
             </head>
             <body>
+                <header>
+                    <span>NetVOD</span>
+                </header>
         END;
 
         $htmlString .= $html;
