@@ -10,19 +10,22 @@ class ViewSerieAction extends Action
 
     public function execute(): string
     {
-        $html = "Series disponible(s) sur le catalogue: <br>";
-
         $pdo = ConnectionFactory::getConnection();
         $statement = $pdo->query("SELECT id FROM serie");
 
-        $html .= "<ul>";
+        $html = "<h3>Series disponible(s) sur le catalogue: <br></h3>";
+
         while ($serie = $statement->fetch()) {
-            $serie = new Serie($serie['id']);
-            $html .= "<div class='serie'>";
-            $href = "index.php?action=show-series-details&id=" . $serie->id;
-            $html .= "<li><a href=$href> $serie->titre</a></li>";
-            $html .= "<img src='$serie->image' alt='image de la série $serie->titre'>";
-            $html .= "</div>";
+            $serie = Serie::find($serie['id']);
+
+            $html .= <<<END
+            <ul>
+                <div class="serie">
+                    <li><a href="index.php?action=show-serie-details&id=$serie->id">$serie->titre</a></li>
+                    <img src="$serie->image" alt="Image de la série $serie->titre">
+                </div>
+            </ul>
+            END;
         }
 
         return $html;

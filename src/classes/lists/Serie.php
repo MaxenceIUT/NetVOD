@@ -7,24 +7,28 @@ use iutnc\netvod\db\ConnectionFactory;
 class Serie
 {
     protected int $id;
-    protected string $titre, $descriptif;
-    protected string $image;
-    protected string $dateAjout;
-    protected string $annee;
+    protected string $titre, $descriptif, $date_ajout, $annee;
+    protected string $image = "";
 
-    public function __construct(int $id)
+    public static function getAll(): array
     {
-        $this->id = $id;
         $pdo = ConnectionFactory::getConnection();
+        $statement = $pdo->query("SELECT id FROM serie");
+        $series = [];
+        while ($serie = $statement->fetch()) {
+            $series[] = Serie::find($serie['id']);
+        }
+        return $series;
+    }
+
+    public static function find(int $id): Serie
+    {
+        $pdo = ConnectionFactory::getConnection();
+
         $query = "SELECT * FROM serie WHERE id = :id";
         $statement = $pdo->prepare($query);
         $statement->execute(['id' => $id]);
-        $serie = $statement->fetch();
-        $this->titre = $serie['titre'];
-        $this->descriptif = $serie['descriptif'];
-        $this->image = $serie['img'];
-        $this->dateAjout = $serie['date_ajout'];
-        $this->annee = $serie['annee'];
+        return $statement->fetchObject(Serie::class);
     }
 
     public function __get($name)
