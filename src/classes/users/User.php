@@ -4,6 +4,7 @@ namespace iutnc\netvod\users;
 
 use InvalidArgumentException;
 use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\lists\Serie;
 
 class User
 {
@@ -40,6 +41,45 @@ class User
         $statement->bindParam(":last_name", $this->last_name);
         $statement->bindParam(":email", $this->email);
         return $statement->execute();
+    }
+
+
+    public function addOnGoingSeries(int $id)
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $email = "'" . $this->email . "'";
+
+        $query = "select * from ongoing_series where email=? and id=?";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $email);
+
+        $statement->bindParam(2, $id);
+        $statement->execute();
+        $result = $statement->rowCount();
+        //verification nombre ligne
+        if ($result > 0) return;
+
+        $query = "insert into ongoing_series (email,id) values (?, ?)";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $email);
+        $statement->bindParam(2, $id);
+        $statement->execute();
+    }
+
+    public function getOnGoingSeries(): array
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select * from ongoing_series where email=?";
+        $statement = $pdo->prepare($query);
+        $email = "'" . $this->email . "'";
+        $statement->bindParam(1, $email);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $series = [];
+        foreach ($result as $serie) {
+            $series[] = Serie::find($serie['id']);
+        }
+        return $series;
     }
 
 }

@@ -31,6 +31,34 @@ class Serie
         return $statement->fetchObject(Serie::class);
     }
 
+    public function toHTML(): string
+    {
+        $html = <<<END
+        <h3>$this->titre</h3>
+        <img src="assets/img/$this->image" alt="Image de la série $this->titre">
+        <p>$this->descriptif</p>
+        <p>Année: $this->annee</p>
+        <p>Date d'ajout: $this->date_ajout</p>
+        END;
+
+        $episodes = Episode::getAllEpisodesFromSerie($this->id);
+        $episodeCount = count($episodes);
+
+        $html .= <<<END
+        <p>$episodeCount épisodes</p>
+        <ul>
+        END;
+
+        foreach ($episodes as $episode) {
+            $nom = "Épisode " . $episode->numero . ": " . $episode->titre;
+            $html .= <<<END
+            <li><a href="index.php?action=show-episode-details&id=$episode->id">$nom</a>$episode->duree minutes</li>
+            END;
+        }
+        $html .= "</ul>";
+        return $html;
+    }
+
     public function __get($name)
     {
         return $this->$name;
