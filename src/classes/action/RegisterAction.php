@@ -3,6 +3,7 @@
 namespace iutnc\netvod\action;
 
 use iutnc\netvod\auth\Auth;
+use iutnc\netvod\exceptions\RegisterException;
 
 class RegisterAction extends Action
 {
@@ -33,10 +34,11 @@ class RegisterAction extends Action
             $password = $_POST['password'];
             $passwordRepeat = $_POST['password-repeat'];
             if ($password == $passwordRepeat) {
-                if (Auth::register($firstName, $lastName, $email, $password)) {
-                    return "Inscription réussie";
-                } else {
-                    return "Erreur lors de l'inscription";
+                try {
+                    Auth::register($firstName, $lastName, $email, $password);
+                    return "Inscription réussie !";
+                } catch (RegisterException $e) {
+                    return "Erreur lors de l'inscription : " . $e->getMessage();
                 }
             } else {
                 return "Les mots de passe ne correspondent pas";
