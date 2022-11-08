@@ -28,16 +28,6 @@ class UserHomeAction extends Action
             END;
 
             // TODO: Afficher les séries en cours de visionnage
-
-            $html .= <<<END
-                    </div>
-                </div>
-                <div class="favorites">
-                    <h3>Favoris</h3>
-                    <div class="items">
-            END;
-
-            // TODO: Afficher les séries favorites
             $arrayOnGoing = $user->getOnGoingSeries();
             foreach ($arrayOnGoing as $serie) {
                 $html .= <<<END
@@ -47,7 +37,15 @@ class UserHomeAction extends Action
                     </div>  
                 END;
             }
+            $html .= <<<END
+                    </div>
+                </div>
+                <div class="favorites">
+                    <h3>Favoris</h3>
+                    <div class="items">
+            END;
 
+            // TODO: Afficher les séries favorites
 
             $html .= <<<END
             
