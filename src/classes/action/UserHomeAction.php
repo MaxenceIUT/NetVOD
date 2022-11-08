@@ -8,6 +8,8 @@ class UserHomeAction extends Action
     public function execute(): string
     {
         if ($this->http_method == "GET") {
+            if (!isset($_SESSION['user'])) http_send_status(403);
+
             $user = $_SESSION['user'];
 
             $html = <<<END
@@ -25,8 +27,20 @@ class UserHomeAction extends Action
                     <div class="items">
             END;
 
+            // TODO: Afficher les séries en cours de visionnage
 
             $html .= <<<END
+                    </div>
+                </div>
+                <div class="favorites">
+                    <h3>Favoris</h3>
+                    <div class="items">
+            END;
+
+            // TODO: Afficher les séries favorites
+
+            $html .= <<<END
+            
                     </div>
                 </div>
             </main>
