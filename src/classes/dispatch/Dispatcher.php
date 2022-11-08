@@ -44,9 +44,6 @@ class Dispatcher
                 <link rel="stylesheet" href="assets/css/style.css">
             </head>
             <body>
-                <header>
-                    <span>NetVOD</span>
-                </header>
         END;
 
         $htmlString .= $html;
