@@ -2,6 +2,8 @@
 
 namespace iutnc\netvod\action;
 
+use iutnc\netvod\auth\Auth;
+use iutnc\netvod\data\Series;
 use iutnc\netvod\db\ConnectionFactory;
 
 class RemoveFavoriteSerieAction extends Action
@@ -9,17 +11,21 @@ class RemoveFavoriteSerieAction extends Action
 
     public function execute(): string
     {
-        $html = "";
         $pdo = ConnectionFactory::getConnection();
-        $query = "delete from favorite_series where email = :email and id = :id";
-        $statement = $pdo->prepare($query);
-        $user_email = $_SESSION['user']->email;
-        $statement->bindParam(":email", $user_email);
         $id = $_GET['id'];
-        $statement->bindParam(":id", $id);
+        $email = Auth::getCurrentUser()->email;
+
+        $series = Series::find($_GET['id']);
+        if (!$series->isBookmarkedBy(Auth::getCurrentUser())) return "Cette série n'est pas dans vos favoris";
+
+        $query = "delete from bookmarked_series where email = ? and id = ?";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $email);
+        $statement->bindParam(2, $id);
+
         $statement->execute();
-        $html .= "Série absente des  favoris";
-        return $html;
+
+        return "Vous avez supprimé cette série de vos favoris";
     }
 
     public function getActionName(): string

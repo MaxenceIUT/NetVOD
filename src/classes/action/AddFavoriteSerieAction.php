@@ -2,25 +2,30 @@
 
 namespace iutnc\netvod\action;
 
+use iutnc\netvod\auth\Auth;
+use iutnc\netvod\data\Series;
 use iutnc\netvod\db\ConnectionFactory;
 
 class AddFavoriteSerieAction extends Action
 {
 
-
     public function execute(): string
     {
-        $html = "";
         $pdo = ConnectionFactory::getConnection();
-        $query = "insert into favorite_series (email, id) values (:email, :id)";
-        $statement = $pdo->prepare($query);
-        $user_email = $_SESSION['user']->email;
-        $statement->bindParam(":email", $user_email);
         $id = $_GET['id'];
+        $series = Series::find($id);
+        $email = Auth::getCurrentUser()->email;
+
+        if ($series->isBookmarkedBy(Auth::getCurrentUser())) return "Cette série est déjà dans vos favoris";
+
+        $query = "insert into bookmarked_series (email, id) values (:email, :id)";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(":email", $email);
         $statement->bindParam(":id", $id);
+
         $statement->execute();
-        $html .= "Série présente dans les favoris";
-        return $html;
+
+        return "Vous avez ajouté cette série à vos favoris";
     }
 
     public function getActionName(): string
@@ -32,4 +37,5 @@ class AddFavoriteSerieAction extends Action
     {
         return true;
     }
+
 }
