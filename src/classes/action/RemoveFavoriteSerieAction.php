@@ -18,7 +18,7 @@ class RemoveFavoriteSerieAction extends Action
         $id = $_GET['id'];
         $statement->bindParam(":id", $id);
         $statement->execute();
-        $html .= "Série supprimée des favoris";
+        $html .= "Série absente des  favoris";
         return $html;
     }
 

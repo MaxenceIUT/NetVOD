@@ -19,7 +19,7 @@ class AddFavoriteSerieAction extends Action
         $id = $_GET['id'];
         $statement->bindParam(":id", $id);
         $statement->execute();
-        $html .= "Série ajoutée aux favoris";
+        $html .= "Série présente dans les favoris";
         return $html;
     }
 
