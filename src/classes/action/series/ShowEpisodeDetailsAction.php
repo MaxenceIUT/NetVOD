@@ -5,6 +5,8 @@ namespace iutnc\netvod\action\series;
 use iutnc\netvod\action\Action;
 use iutnc\netvod\data\Episode;
 use iutnc\netvod\data\Review;
+use iutnc\netvod\renderer\EpisodeRenderer;
+use iutnc\netvod\renderer\Renderer;
 
 class ShowEpisodeDetailsAction extends Action
 {
@@ -14,7 +16,8 @@ class ShowEpisodeDetailsAction extends Action
         $episode = Episode::find($_GET['id']);
         $user = $_SESSION['user'];
         $user->addWatchedEpisode($episode);
-        $html = $episode->toHTML();
+        $renderEpisode = new EpisodeRenderer($episode);
+        $html = $renderEpisode->render(Renderer::FULL);
         $comments = $user->getComment($episode->serie_id);
         //Si le commentaire existe on l'affiche, sinon on affiche un formulaire
         if ($comments != null) {

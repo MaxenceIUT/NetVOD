@@ -59,10 +59,8 @@ class SeriesRenderer implements Renderer
             END;
 
             foreach ($episodes as $episode) {
-                $nom = "Épisode " . $episode->numero . ": " . $episode->titre;
-                $html .= <<<END
-                <li><a href="index.php?action=show-episode-details&id=$episode->id">$nom</a>$episode->duree minutes</li>
-                END;
+                $renderEpisode = new EpisodeRenderer($episode);
+                $html .= $renderEpisode->render(Renderer::COMPACT);
             }
 
             $html .= "</ul>";
