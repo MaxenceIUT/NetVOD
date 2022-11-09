@@ -2,19 +2,19 @@
 
 namespace iutnc\netvod\dispatch;
 
-use iutnc\netvod\action\AccountAction;
+use iutnc\netvod\action\account\AccountAction;
+use iutnc\netvod\action\account\LoginAction;
+use iutnc\netvod\action\account\LogoutAction;
+use iutnc\netvod\action\account\RegisterAction;
+use iutnc\netvod\action\account\UserHomeAction;
 use iutnc\netvod\action\Action;
-use iutnc\netvod\action\AddFavoriteSerieAction;
-use iutnc\netvod\action\DisplayFavoritesSeriesAction;
+use iutnc\netvod\action\api\AddFavoriteSerieAction;
+use iutnc\netvod\action\api\RemoveFavoriteSerieAction;
 use iutnc\netvod\action\LandingPageAction;
-use iutnc\netvod\action\LoginAction;
-use iutnc\netvod\action\LogoutAction;
-use iutnc\netvod\action\RegisterAction;
-use iutnc\netvod\action\RemoveFavoriteSerieAction;
-use iutnc\netvod\action\ShowEpisodeDetailsAction;
-use iutnc\netvod\action\ShowSerieDetailsAction;
-use iutnc\netvod\action\UserHomeAction;
-use iutnc\netvod\action\ViewSerieAction;
+use iutnc\netvod\action\series\DisplayFavoritesSeriesAction;
+use iutnc\netvod\action\series\ShowEpisodeDetailsAction;
+use iutnc\netvod\action\series\ShowSerieDetailsAction;
+use iutnc\netvod\action\series\ViewSerieAction;
 
 class Dispatcher
 {

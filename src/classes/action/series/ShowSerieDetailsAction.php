@@ -1,7 +1,10 @@
 <?php
 
-namespace iutnc\netvod\action;
+namespace iutnc\netvod\action\series;
 
+use iutnc\netvod\action\Action;
+use iutnc\netvod\action\api\AddFavoriteSerieAction;
+use iutnc\netvod\action\api\RemoveFavoriteSerieAction;
 use iutnc\netvod\data\Series;
 use iutnc\netvod\renderer\Renderer;
 use iutnc\netvod\renderer\SeriesRenderer;

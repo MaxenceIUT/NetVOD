@@ -1,7 +1,8 @@
 <?php
 
-namespace iutnc\netvod\action;
+namespace iutnc\netvod\action\account;
 
+use iutnc\netvod\action\Action;
 use iutnc\netvod\auth\Auth;
 use iutnc\netvod\exceptions\RegisterException;
 
