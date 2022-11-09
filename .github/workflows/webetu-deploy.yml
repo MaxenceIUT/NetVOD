@@ -11,6 +11,12 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
     
+    - name: 🔁 Generate composer autoloader
+      run: composer install
+      
+    - name: 📂 List current files
+      run: ls -la
+    
     - name: 📂 Sync files
       uses: wlixcc/SFTP-Deploy-Action@v1.2.4
       with:
