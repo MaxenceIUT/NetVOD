@@ -4,6 +4,7 @@ namespace iutnc\netvod\action\account;
 
 use iutnc\netvod\action\Action;
 use iutnc\netvod\auth\Auth;
+use iutnc\netvod\renderer\OngoingSeriesRenderer;
 use iutnc\netvod\renderer\Renderer;
 use iutnc\netvod\renderer\SeriesRenderer;
 
@@ -32,7 +33,8 @@ class UserHomeAction extends Action
 
             $ongoingSeries = $user->getOngoingSeries();
             foreach ($ongoingSeries as $series) {
-                $renderer = new SeriesRenderer($series);
+//                $renderer = new SeriesRenderer($series);
+                $renderer = new OngoingSeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
             }
 
