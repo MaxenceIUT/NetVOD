@@ -11,7 +11,7 @@ class LoginAction extends Action
     {
         if ($this->http_method == "GET") {
             if (isset($_SESSION['user'])) {
-                header('Location: index.php?action=account');
+                header('Location: index.php?action=home');
             } else {
                 $html = <<<END
                 <form action="index.php?action=login" method="post">
