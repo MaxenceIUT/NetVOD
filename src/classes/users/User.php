@@ -3,9 +3,11 @@
 namespace iutnc\netvod\users;
 
 use InvalidArgumentException;
+use iutnc\netvod\data\Episode;
+use iutnc\netvod\data\Review;
+use iutnc\netvod\data\Series;
 use iutnc\netvod\db\ConnectionFactory;
-use iutnc\netvod\lists\Review;
-use iutnc\netvod\lists\Serie;
+use PDO;
 
 class User
 {
@@ -45,14 +47,17 @@ class User
     }
 
 
-    public function addOnGoingSeries(int $id)
+    public function addWatchedEpisode(Episode $episode): void
     {
         $pdo = ConnectionFactory::getConnection();
 
-        $query = "select * from ongoing_series where email = ? and id = ?";
+        $query = "select * from watched_episodes where email = ? and id = ?";
         $statement = $pdo->prepare($query);
 
-        $statement->bindParam(1, $this->email);
+        $email = $this->email;
+        $id = $episode->id;
+
+        $statement->bindParam(1, $email);
         $statement->bindParam(2, $id);
         $statement->execute();
 
@@ -60,63 +65,45 @@ class User
 
         if ($result > 0) return; // already ongoing, no need to add
 
-        $query = "insert into ongoing_series (email, id) values (?, ?)";
+        $query = "insert into watched_episodes (email, id) values (?, ?)";
         $statement = $pdo->prepare($query);
-        $statement->bindParam(1, $this->email);
+        $statement->bindParam(1, $email);
         $statement->bindParam(2, $id);
         $statement->execute();
     }
 
-    public function getSeries(string $q): array
+    private function getSeries(string $table): array
     {
         $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->prepare($q);
+
+        $query = "select * from series where id IN (select id from " . $table . " where email = ?)";
+        $statement = $pdo->prepare($query);
         $statement->bindParam(1, $this->email);
         $statement->execute();
-        $result = $statement->fetchAll();
-        $series = [];
-        foreach ($result as $serie) {
-            $series[] = Serie::find($serie['id']);
-        }
-        return $series;
+
+        return $statement->fetchAll(PDO::FETCH_CLASS, Series::class);
     }
 
-    public function getOnGoingSeries(): array
+    public function getOngoingSeries(): array
     {
-        $str = "select * from ongoing_series where email = ?";
-        return $this->getSeries($str);
+        return $this->getSeries("watched_episodes");
     }
 
-    public function getFavoriteSeries(): array
+    public function getBookmarkedSeries(): array
     {
-        $str = "select * from favorite_series where email = ?";
-        return $this->getSeries($str);
-    }
-
-    static function hasFavorite(int $i): bool
-    {
-        $pdo = ConnectionFactory::getConnection();
-        $query = "select * from favorite_series where email=? and id=?";
-        $statement = $pdo->prepare($query);
-        $email = $_SESSION['user']->email;
-        $statement->bindParam(1, $email);
-        $statement->bindParam(2, $i);
-        $statement->execute();
-        $result = $statement->rowCount();
-        return $result > 0;
+        return $this->getSeries("bookmarked_series");
     }
 
     public function getComment(int $id): ?Review
     {
         $pdo = ConnectionFactory::getConnection();
-        $query = "select * from reviews where id = :saison_id and email = :email";
+        $query = "select * from series_reviews where id = :saison_id and email = :email";
         $statement = $pdo->prepare($query);
         $statement->bindParam(':saison_id', $id);
-        $statement->bindParam(':email', $_SESSION['user']->email);
+        $statement->bindParam(':email', $this->email);
         $statement->execute();
         $object = $statement->fetchObject(Review::class);
         return ($statement->rowCount() > 0) ? $object : null;
     }
-
 
 }
