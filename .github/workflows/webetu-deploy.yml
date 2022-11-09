@@ -11,8 +11,10 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
     
-    - name: 🔁 Generate composer autoloader
-      run: composer install
+    - name: 🔁 Preparing files (generate composer autoloader, remove git directories)
+      run: |
+        composer install
+        rm -rf .git/ .github/
       
     - name: 📂 List current files
       run: ls -la
