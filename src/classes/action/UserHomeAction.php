@@ -44,6 +44,15 @@ class UserHomeAction extends Action
             END;
 
             // TODO: Afficher les séries favorites
+            $arrayOnGoing = $user->getFavoriteSeries();
+            foreach ($arrayOnGoing as $serie) {
+                $html .= <<<END
+                    <div class="serie">
+                        <li><a href="index.php?action=show-serie-details&id=$serie->id">$serie->titre</a></li>
+                        <img src="$serie->image" alt="Image de la série $serie->titre">
+                    </div>  
+                END;
+            }
 
             $html .= <<<END
             
