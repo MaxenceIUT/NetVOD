@@ -44,24 +44,28 @@ class Dispatcher
 
     public function run(): void
     {
-        if (isset($this->actions[$this->action])) {
-            $action = $this->actions[$this->action];
-            if ($action->shouldBeAuthenticated() && !isset($_SESSION['user'])) {
-                http_response_code(403);
-                $html = <<<END
-                <h1>Eh mais, vous n'avez rien à faire là !</h1>
-                <p>Vous devez être connecté pour accéder à cette page</p>
-                <a href="index.php?action=login">Se connecter</a>
-                END;
-            } else {
-                $html = $action->execute();
-            }
+        if ($this->action == null) {
+            $html = $this->actions['landing-page']->execute();
         } else {
-            http_response_code(404);
-            $html = <<<END
-            <h1>Page introuvable</h1>
-            <p>La page que vous recherchez n'existe pas</p>
-            END;
+            if (isset($this->actions[$this->action])) {
+                $action = $this->actions[$this->action];
+                if ($action->shouldBeAuthenticated() && !isset($_SESSION['user'])) {
+                    http_response_code(403);
+                    $html = <<<END
+                    <h1>Eh mais, vous n'avez rien à faire là !</h1>
+                    <p>Vous devez être connecté pour accéder à cette page</p>
+                    <a href="index.php?action=login">Se connecter</a>
+                    END;
+                } else {
+                    $html = $action->execute();
+                }
+            } else {
+                http_response_code(404);
+                $html = <<<END
+                <h1>Page introuvable</h1>
+                <p>La page que vous recherchez n'existe pas</p>
+                END;
+            }
         }
         $this->renderPage($html);
     }
