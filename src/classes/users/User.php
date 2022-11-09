@@ -4,6 +4,7 @@ namespace iutnc\netvod\users;
 
 use InvalidArgumentException;
 use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\lists\Review;
 use iutnc\netvod\lists\Serie;
 
 class User
@@ -66,10 +67,12 @@ class User
         $statement->execute();
     }
 
-    public function getSeries(string $q): array
+    public function getOnGoingSeries(): array
     {
         $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->prepare($q);
+
+        $query = "select id from ongoing_series where email = ?";
+        $statement = $pdo->prepare($query);
         $statement->bindParam(1, $this->email);
         $statement->execute();
         $result = $statement->fetchAll();
@@ -103,6 +106,18 @@ class User
         $statement->execute();
         $result = $statement->rowCount();
         return $result > 0;
+    }
+
+    public function getComment(int $id): ?Review
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select * from reviews where id = :saison_id and email = :email";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(':saison_id', $id);
+        $statement->bindParam(':email', $_SESSION['user']->email);
+        $statement->execute();
+        $object = $statement->fetchObject(Review::class);
+        return ($statement->rowCount() > 0) ? $object : null;
     }
 
 
