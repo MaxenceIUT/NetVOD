@@ -39,9 +39,10 @@ class User
     public function save(): bool
     {
         $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name WHERE email = :email");
+        $statement = $pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, favorite_genre = :favorite_genre WHERE email = :email");
         $statement->bindParam(":first_name", $this->first_name);
         $statement->bindParam(":last_name", $this->last_name);
+        $statement->bindParam(":favorite_genre", $this->favorite_genre);
         $statement->bindParam(":email", $this->email);
         return $statement->execute();
     }
