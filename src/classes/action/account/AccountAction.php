@@ -30,7 +30,7 @@ class AccountAction extends Action
             $html .= "<select name=\"favorite-genre\" id=\"favorite-genre\">";
 
             $selected = $user->favorite_genre == null ? "selected" : "";
-            $html .= "<option value=\"\" $selected>Choisir un genre</option>";
+            $html .= "<option value=\"\" $selected>Ne pas spécifier</option>";
 
             foreach ($genres as $genre) {
                 $selected = $genre['id'] == $user->favorite_genre ? "selected" : "";
