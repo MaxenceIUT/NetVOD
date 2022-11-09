@@ -10,7 +10,7 @@ class LoginAction extends Action
     public function execute(): string
     {
         if ($this->http_method == "GET") {
-            if (isset($_SESSION['user'])) {
+            if (Auth::getCurrentUser() != null) {
                 header('Location: index.php?action=home');
             } else {
                 $html = <<<END

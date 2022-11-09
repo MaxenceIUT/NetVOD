@@ -2,8 +2,9 @@
 
 namespace iutnc\netvod\action;
 
+use iutnc\netvod\auth\Auth;
+use iutnc\netvod\data\Series;
 use iutnc\netvod\db\ConnectionFactory;
-use iutnc\netvod\lists\Serie;
 
 class DisplayFavoritesSeriesAction extends Action
 {
@@ -13,13 +14,13 @@ class DisplayFavoritesSeriesAction extends Action
         $pdo = ConnectionFactory::getConnection();
         $query = "select id from favorite_series where email = :email";
         $statement = $pdo->prepare($query);
-        $email = $_SESSION['user']->email;
+        $email = Auth::getCurrentUser()->email;
         $statement->bindParam(":email", $email);
         $statement->execute();
         $result = $statement->fetchAll();
         $user = $_SESSION['user'];
         foreach ($result as $serieN) {
-            $serie = Serie::find($serieN['id']);
+            $serie = Series::find($serieN['id']);
             $fav = $user->hasFavorite($serie->id);
             $html .= "<li><a href='index.php?action=show-series-details&id=" . $serie->id . "&fav=" . $fav . ">" . $serie->titre . "</a></li>";
         }

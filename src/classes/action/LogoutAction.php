@@ -2,13 +2,15 @@
 
 namespace iutnc\netvod\action;
 
+use iutnc\netvod\auth\Auth;
+
 class LogoutAction extends Action
 {
 
     public function execute(): string
     {
         if ($this->http_method == "GET") {
-            if (isset($_SESSION['user'])) {
+            if (Auth::getCurrentUser() != null) {
                 session_destroy();
                 header("Location: index.php");
             } else {
