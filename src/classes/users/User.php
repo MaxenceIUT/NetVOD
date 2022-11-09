@@ -67,12 +67,10 @@ class User
         $statement->execute();
     }
 
-    public function getOnGoingSeries(): array
+    public function getSeries(string $q): array
     {
         $pdo = ConnectionFactory::getConnection();
-
-        $query = "select id from ongoing_series where email = ?";
-        $statement = $pdo->prepare($query);
+        $statement = $pdo->prepare($q);
         $statement->bindParam(1, $this->email);
         $statement->execute();
         $result = $statement->fetchAll();
