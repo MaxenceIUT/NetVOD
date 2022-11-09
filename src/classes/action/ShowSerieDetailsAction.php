@@ -2,29 +2,38 @@
 
 namespace iutnc\netvod\action;
 
-use iutnc\netvod\lists\Serie;
+use iutnc\netvod\data\Series;
+use iutnc\netvod\renderer\Renderer;
+use iutnc\netvod\renderer\SeriesRenderer;
 
 class ShowSerieDetailsAction extends Action
 {
 
     public function execute(): string
     {
-        $html = "";
         $id = $_GET['id'];
-        $serie = Serie::find($id);
-        if ($_GET['fav'] == 'true') {
-            $a = new AddFavoriteSerieAction();
-            $html .= $a->execute();
-        } else {
-            $a = new RemoveFavoriteSerieAction();
-            $html .= $a->execute();
+        $series = Series::find($id);
+
+        $html = "";
+
+        if (isset($_GET['bookmark'])) {
+            if ($_GET['bookmark'] == 'true') {
+                $action = new AddFavoriteSerieAction();
+            } else {
+                $action = new RemoveFavoriteSerieAction();
+            }
+            $html .= $action->execute();
         }
-        return $serie->toHTML() . $html;
+
+        $renderer = new SeriesRenderer($series);
+        $html .= $renderer->render(Renderer::FULL);
+
+        return $html;
     }
 
     public function getActionName(): string
     {
-        return "show-serie-details";
+        return "show-series-details";
     }
 
     public function shouldBeAuthenticated(): bool

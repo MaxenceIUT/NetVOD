@@ -2,8 +2,10 @@
 
 namespace iutnc\netvod\action;
 
+use iutnc\netvod\data\Series;
 use iutnc\netvod\db\ConnectionFactory;
-use iutnc\netvod\lists\Serie;
+use iutnc\netvod\renderer\Renderer;
+use iutnc\netvod\renderer\SeriesRenderer;
 
 class ViewSerieAction extends Action
 {
@@ -11,21 +13,15 @@ class ViewSerieAction extends Action
     public function execute(): string
     {
         $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->query("SELECT id FROM serie");
+        Series::getAll();
+        $statement = $pdo->query("SELECT id FROM series");
 
         $html = "<h3>Series disponible(s) sur le catalogue: <br></h3>";
 
-        while ($serie = $statement->fetch()) {
-            $serie = Serie::find($serie['id']);
-
-            $html .= <<<END
-            <ul>
-                <div class="serie">
-                    <li><a href="index.php?action=show-serie-details&id=$serie->id">$serie->titre</a></li>
-                    <img src="$serie->image" alt="Image de la série $serie->titre">
-                </div>
-            </ul>
-            END;
+        $seriesList = Series::getAll();
+        foreach ($seriesList as $series) {
+            $renderer = new SeriesRenderer($series);
+            $html .= $renderer->render(Renderer::COMPACT);
         }
 
         return $html;
@@ -40,4 +36,5 @@ class ViewSerieAction extends Action
     {
         return true;
     }
+
 }
