@@ -93,7 +93,7 @@ class User
         return $this->getSeries($str);
     }
 
-    static function isFavorite(int $i): bool
+    static function hasFavorite(int $i): bool
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "select * from favorite_series where email=? and id=?";
