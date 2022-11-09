@@ -23,4 +23,9 @@ class LogoutAction extends Action
     {
         return "logout";
     }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return true;
+    }
 }

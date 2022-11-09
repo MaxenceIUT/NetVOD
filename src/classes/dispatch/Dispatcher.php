@@ -25,7 +25,16 @@ class Dispatcher
     {
         if (isset($this->actions[$this->action])) {
             $action = $this->actions[$this->action];
-            $html = $action->execute();
+            if ($action->shouldBeAuthenticated() && !isset($_SESSION['user'])) {
+                http_response_code(403);
+                $html = <<<END
+                <h1>Eh mais, vous n'avez rien à faire là !</h1>
+                <p>Vous devez être connecté pour accéder à cette page</p>
+                <a href="index.php?action=login">Se connecter</a>
+                END;
+            } else {
+                $html = $action->execute();
+            }
         } else {
             $action = $this->actions['landing-page'];
             $html = $action->execute();
@@ -39,9 +48,9 @@ class Dispatcher
         <!DOCTYPE html>
         <html lang="fr">
             <head>
-                <meta charset="UTF-8">
+                <meta charset="UTF - 8">
                 <title>NetVOD</title>
-                <link rel="stylesheet" href="assets/css/style.css">
+                <link rel="stylesheet" href="assets / css / style . css">
             </head>
             <body>
         END;

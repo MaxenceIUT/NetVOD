@@ -19,4 +19,9 @@ class ShowSerieDetailsAction extends Action
     {
         return "show-serie-details";
     }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return true;
+    }
 }

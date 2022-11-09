@@ -45,4 +45,10 @@ class AccountAction extends Action
     {
         return "account";
     }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return true;
+    }
+
 }

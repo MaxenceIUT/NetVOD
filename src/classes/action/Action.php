@@ -20,4 +20,6 @@ abstract class Action
 
     abstract public function getActionName(): string;
 
+    abstract public function shouldBeAuthenticated(): bool;
+
 }

@@ -21,4 +21,8 @@ class LandingPageAction extends Action
         return "landing-page";
     }
 
+    public function shouldBeAuthenticated(): bool
+    {
+        return false;
+    }
 }

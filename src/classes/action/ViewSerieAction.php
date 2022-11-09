@@ -36,4 +36,8 @@ class ViewSerieAction extends Action
         return "view-serie";
     }
 
+    public function shouldBeAuthenticated(): bool
+    {
+        return true;
+    }
 }

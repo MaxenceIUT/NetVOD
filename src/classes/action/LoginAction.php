@@ -32,7 +32,7 @@ class LoginAction extends Action
                 return "Utilisateur inconnu";
             } else {
                 $_SESSION['user'] = $user;
-                header("Location: index.php?action=account");
+                header("Location: index.php?action=home");
                 return "Connexion réussie";
             }
         } else {
@@ -43,6 +43,11 @@ class LoginAction extends Action
     public function getActionName(): string
     {
         return "login";
+    }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return false;
     }
 
 }

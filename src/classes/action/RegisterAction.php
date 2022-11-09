@@ -53,4 +53,9 @@ class RegisterAction extends Action
         return "register";
     }
 
+    public function shouldBeAuthenticated(): bool
+    {
+        return false;
+    }
+
 }

@@ -19,4 +19,9 @@ class ShowEpisodeDetailsAction extends Action
     {
         return "show-episode-details";
     }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return false;
+    }
 }

@@ -8,8 +8,6 @@ class UserHomeAction extends Action
     public function execute(): string
     {
         if ($this->http_method == "GET") {
-            if (!isset($_SESSION['user'])) http_send_status(403);
-
             $user = $_SESSION['user'];
 
             $html = <<<END
@@ -64,6 +62,11 @@ class UserHomeAction extends Action
     public function getActionName(): string
     {
         return "home";
+    }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return true;
     }
 
 }
