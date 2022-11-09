@@ -66,15 +66,12 @@ class User
         $statement->execute();
     }
 
-    public function getOnGoingSeries(): array
+    public function getSeries(string $q): array
     {
         $pdo = ConnectionFactory::getConnection();
-
-        $query = "select id from ongoing_series where email = ?";
-        $statement = $pdo->prepare($query);
+        $statement = $pdo->prepare($q);
         $statement->bindParam(1, $this->email);
         $statement->execute();
-
         $result = $statement->fetchAll();
         $series = [];
         foreach ($result as $serie) {
@@ -83,7 +80,19 @@ class User
         return $series;
     }
 
-    public static function isFavorite(int $i): bool
+    public function getOnGoingSeries(): array
+    {
+        $str = "select * from ongoing_series where email = ?";
+        return $this->getSeries($str);
+    }
+
+    public function getFavoriteSeries(): array
+    {
+        $str = "select * from favorite_series where email = ?";
+        return $this->getSeries($str);
+    }
+
+    static function isFavorite(int $i): bool
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "select * from favorite_series where email=? and id=?";
@@ -95,5 +104,6 @@ class User
         $result = $statement->rowCount();
         return $result > 0;
     }
+
 
 }
