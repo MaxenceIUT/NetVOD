@@ -2,6 +2,20 @@
 
 namespace iutnc\netvod\dispatch;
 
+use iutnc\netvod\action\AccountAction;
+use iutnc\netvod\action\Action;
+use iutnc\netvod\action\AddFavoriteSerieAction;
+use iutnc\netvod\action\DisplayFavoritesSeriesAction;
+use iutnc\netvod\action\LandingPageAction;
+use iutnc\netvod\action\LoginAction;
+use iutnc\netvod\action\LogoutAction;
+use iutnc\netvod\action\RegisterAction;
+use iutnc\netvod\action\RemoveFavoriteSerieAction;
+use iutnc\netvod\action\ShowEpisodeDetailsAction;
+use iutnc\netvod\action\ShowSerieDetailsAction;
+use iutnc\netvod\action\UserHomeAction;
+use iutnc\netvod\action\ViewSerieAction;
+
 class Dispatcher
 {
 
@@ -12,13 +26,20 @@ class Dispatcher
     {
         $this->action = $_GET['action'];
 
-        $actionsName = array_diff(scandir('src\classes\action'), array('..', '.', 'Action.php'));
-        foreach ($actionsName as $actionName) {
-            $actionName = str_replace('.php', '', $actionName);
-            $actionClass = "iutnc\\netvod\\action\\$actionName";
-            $createdAction = new $actionClass();
-            $this->actions[$createdAction->getActionName()] = $createdAction;
-        }
+        $this->registerActions(
+            new LandingPageAction(),
+            new RegisterAction(),
+            new LoginAction(),
+            new LogoutAction(),
+            new AccountAction(),
+            new UserHomeAction(),
+            new ViewSerieAction(),
+            new AddFavoriteSerieAction(),
+            new RemoveFavoriteSerieAction(),
+            new DisplayFavoritesSeriesAction(),
+            new ShowEpisodeDetailsAction(),
+            new ShowSerieDetailsAction()
+        );
     }
 
     public function run(): void
@@ -36,8 +57,11 @@ class Dispatcher
                 $html = $action->execute();
             }
         } else {
-            $action = $this->actions['landing-page'];
-            $html = $action->execute();
+            http_response_code(404);
+            $html = <<<END
+            <h1>Page introuvable</h1>
+            <p>La page que vous recherchez n'existe pas</p>
+            END;
         }
         $this->renderPage($html);
     }
@@ -63,6 +87,18 @@ class Dispatcher
         END;
 
         echo $htmlString;
+    }
+
+    private function registerAction(Action $action): void
+    {
+        $this->actions[$action->getActionName()] = $action;
+    }
+
+    private function registerActions(Action...$action): void
+    {
+        foreach ($action as $a) {
+            $this->registerAction($a);
+        }
     }
 
 }
