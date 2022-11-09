@@ -17,9 +17,11 @@ class DisplayFavoritesSeriesAction extends Action
         $statement->bindParam(":email", $email);
         $statement->execute();
         $result = $statement->fetchAll();
+        $user = $_SESSION['user'];
         foreach ($result as $serieN) {
             $serie = Serie::find($serieN['id']);
-            $html .= "<li><a href='index.php?action=show-series-details&id=" . $serie->id . "'>" . $serie->titre . "</a></li>";
+            $fav = $user->hasFavorite($serie->id);
+            $html .= "<li><a href='index.php?action=show-series-details&id=" . $serie->id . "&fav=" . $fav . ">" . $serie->titre . "</a></li>";
         }
         return $html;
     }
