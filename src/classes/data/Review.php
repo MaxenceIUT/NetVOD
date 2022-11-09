@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\netvod\lists;
+namespace iutnc\netvod\data;
 
 use iutnc\netvod\db\ConnectionFactory;
 
@@ -8,12 +8,6 @@ class Review
 {
     protected string $email, $comment;
     protected int $id, $score;
-
-
-    public function __construct()
-    {
-
-    }
 
     public static function create(string $email, int $id, int $note, string $comment): Review
     {
@@ -28,7 +22,7 @@ class Review
     public function addBase(): bool
     {
         $pdo = ConnectionFactory::getConnection();
-        $query = "insert into reviews(email, id, comment, score) values (?,?,?,?)";
+        $query = "insert into series_reviews (email, id, comment, score) values (?, ?, ?, ?)";
         $statement = $pdo->prepare($query);
         $statement->bindParam(1, $this->email);
         $statement->bindParam(2, $this->id);

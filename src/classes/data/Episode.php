@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\netvod\lists;
+namespace iutnc\netvod\data;
 
 use iutnc\netvod\db\ConnectionFactory;
 
