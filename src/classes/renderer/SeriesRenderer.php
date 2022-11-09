@@ -44,7 +44,10 @@ class SeriesRenderer implements Renderer
             $html .= <<<END
             <p>Année: {$this->series->annee}</p>
             <p>Date d'ajout: {$this->series->date_ajout}</p>
-            <p>Note: $score</p>
+            <div class="reviews">
+                <h4>Note: $score</h4>
+                <a href="index.php?action=show-reviews&id={$this->series->id}">Voir les avis</a>            
+            </div>
             END;
 
             $episodes = Episode::getAllEpisodesFromSerie($this->series->id);

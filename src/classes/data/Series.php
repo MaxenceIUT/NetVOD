@@ -4,6 +4,7 @@ namespace iutnc\netvod\data;
 
 use iutnc\netvod\db\ConnectionFactory;
 use iutnc\netvod\users\User;
+use PDO;
 
 class Series
 {
@@ -67,6 +68,16 @@ class Series
         $result = $statement->fetch();
 
         return $result['score'] ?? -1;
+    }
+
+    public function getReviews(): array
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select * from series_reviews where id = ?";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $this->id);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_CLASS, Review::class);
     }
 
 }

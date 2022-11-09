@@ -13,6 +13,7 @@ use iutnc\netvod\action\api\RemoveFavoriteSerieAction;
 use iutnc\netvod\action\LandingPageAction;
 use iutnc\netvod\action\series\DisplayFavoritesSeriesAction;
 use iutnc\netvod\action\series\ShowEpisodeDetailsAction;
+use iutnc\netvod\action\series\ShowReviewsAction;
 use iutnc\netvod\action\series\ShowSerieDetailsAction;
 use iutnc\netvod\action\series\ViewSerieAction;
 
@@ -38,7 +39,8 @@ class Dispatcher
             new RemoveFavoriteSerieAction(),
             new DisplayFavoritesSeriesAction(),
             new ShowEpisodeDetailsAction(),
-            new ShowSerieDetailsAction()
+            new ShowSerieDetailsAction(),
+            new ShowReviewsAction()
         );
     }
 
