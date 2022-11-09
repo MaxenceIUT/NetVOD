@@ -26,6 +26,14 @@ class Auth
     }
 
     /**
+     * @return User|null The user if authenticated, null otherwise
+     */
+    public static function getCurrentUser(): ?User
+    {
+        return $_SESSION["user"] ?? null;
+    }
+
+    /**
      * @throws RegisterException
      */
     public static function register($firstName, $lastName, $email, $password)
