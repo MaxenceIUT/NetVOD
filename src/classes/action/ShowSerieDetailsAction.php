@@ -9,9 +9,9 @@ class ShowSerieDetailsAction extends Action
 
     public function execute(): string
     {
+        $html = "";
         $id = $_GET['id'];
         $serie = Serie::find($id);
-
         return $serie->toHTML();
     }
 
