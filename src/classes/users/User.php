@@ -47,21 +47,21 @@ class User
     public function addOnGoingSeries(int $id)
     {
         $pdo = ConnectionFactory::getConnection();
-        $email = "'" . $this->email . "'";
 
-        $query = "select * from ongoing_series where email=? and id=?";
+        $query = "select * from ongoing_series where email = ? and id = ?";
         $statement = $pdo->prepare($query);
-        $statement->bindParam(1, $email);
 
+        $statement->bindParam(1, $this->email);
         $statement->bindParam(2, $id);
         $statement->execute();
-        $result = $statement->rowCount();
-        //verification nombre ligne
-        if ($result > 0) return;
 
-        $query = "insert into ongoing_series (email,id) values (?, ?)";
+        $result = $statement->rowCount();
+
+        if ($result > 0) return; // already ongoing, no need to add
+
+        $query = "insert into ongoing_series (email, id) values (?, ?)";
         $statement = $pdo->prepare($query);
-        $statement->bindParam(1, $email);
+        $statement->bindParam(1, $this->email);
         $statement->bindParam(2, $id);
         $statement->execute();
     }
@@ -69,11 +69,12 @@ class User
     public function getOnGoingSeries(): array
     {
         $pdo = ConnectionFactory::getConnection();
-        $query = "select * from ongoing_series where email=?";
+
+        $query = "select id from ongoing_series where email = ?";
         $statement = $pdo->prepare($query);
-        $email = "'" . $this->email . "'";
-        $statement->bindParam(1, $email);
+        $statement->bindParam(1, $this->email);
         $statement->execute();
+
         $result = $statement->fetchAll();
         $series = [];
         foreach ($result as $serie) {
