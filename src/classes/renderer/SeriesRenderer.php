@@ -38,9 +38,13 @@ class SeriesRenderer implements Renderer
                 }
             }
 
+            $score = $this->series->getScore();
+            $score = $score == -1 ? "N/A" : $score;
+
             $html .= <<<END
             <p>Année: {$this->series->annee}</p>
             <p>Date d'ajout: {$this->series->date_ajout}</p>
+            <p>Note: $score</p>
             END;
 
             $episodes = Episode::getAllEpisodesFromSerie($this->series->id);

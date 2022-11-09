@@ -54,4 +54,19 @@ class Series
         return $result > 0;
     }
 
+    /**
+     * @return int the score of the series, or -1 if no user has reviewed it
+     */
+    public function getScore(): int
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select avg(score) as score from series_reviews where id = ?";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $this->id);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return $result['score'] ?? -1;
+    }
+
 }
