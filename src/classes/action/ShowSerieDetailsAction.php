@@ -12,7 +12,14 @@ class ShowSerieDetailsAction extends Action
         $html = "";
         $id = $_GET['id'];
         $serie = Serie::find($id);
-        return $serie->toHTML();
+        if ($_GET['fav'] == 'true') {
+            $a = new AddFavoriteSerieAction();
+            $html .= $a->execute();
+        } else {
+            $a = new RemoveFavoriteSerieAction();
+            $html .= $a->execute();
+        }
+        return $serie->toHTML() . $html;
     }
 
     public function getActionName(): string
