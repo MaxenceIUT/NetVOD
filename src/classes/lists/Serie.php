@@ -14,7 +14,7 @@ class Serie
     public static function getAll(): array
     {
         $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->query("SELECT id FROM serie");
+        $statement = $pdo->query("SELECT id FROM series");
         $series = [];
         while ($serie = $statement->fetch()) {
             $series[] = Serie::find($serie['id']);
@@ -26,9 +26,10 @@ class Serie
     {
         $pdo = ConnectionFactory::getConnection();
 
-        $query = "SELECT * FROM serie WHERE id = :id";
+        $query = "SELECT * FROM series WHERE id = :id";
         $statement = $pdo->prepare($query);
-        $statement->execute(['id' => $id]);
+        $statement->bindParam(":id", $id);
+        $statement->execute();
         return $statement->fetchObject(Serie::class);
     }
 
@@ -39,10 +40,18 @@ class Serie
         <img src="assets/img/$this->image" alt="Image de la série $this->titre">
         <p>$this->descriptif</p>
         END;
-        if (!User::isFavorite($this->id)) {
-            $html .= "<a href='index.php?action=add-favorite-serie&id=$this->id'>Ajouter aux favoris</a>";
-        } else {
-            $html .= "<a href='index.php?action=remove-favorite-serie&id=$this->id'>Retirer des favoris</a>";
+        if (!User::hasFavorite($this->id)) {
+            $html .= <<<END
+        <div class="add-favorite">
+                <a href='index.php?action=show-serie-details&id=$this->id&fav=true'>Ajouter aux favoris</a>
+        </div>
+        END;
+        } else if (User::hasFavorite($this->id)) {
+            $html .= <<<END
+        <div class="remove-favorite">
+            <a href='index.php?action=show-serie-details&id=$this->id&fav=false '>Retirer des favoris</a>
+        </div>
+        END;
         }
         $html .= <<<END
         <p>Année: $this->annee</p>
