@@ -25,11 +25,10 @@ class UserHomeAction extends Action
                     <div class="items">
             END;
 
-            // TODO: Afficher les séries en cours de visionnage
             $arrayOnGoing = $user->getOnGoingSeries();
             foreach ($arrayOnGoing as $serie) {
                 $html .= <<<END
-                    <div class="serie">
+                    <div class="ongoing">
                         <li><a href="index.php?action=show-serie-details&id=$serie->id">$serie->titre</a></li>
                         <img src="$serie->image" alt="Image de la série $serie->titre">
                     </div>  
@@ -43,7 +42,6 @@ class UserHomeAction extends Action
                     <div class="items">
             END;
 
-            // TODO: Afficher les séries favorites
             $arrayOnGoing = $user->getFavoriteSeries();
             foreach ($arrayOnGoing as $serie) {
                 $html .= <<<END
