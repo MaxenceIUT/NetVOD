@@ -82,4 +82,17 @@ class User
         return $series;
     }
 
+    public static function isFavorite(int $i): bool
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select * from favorite_series where email=? and id=?";
+        $statement = $pdo->prepare($query);
+        $email = $_SESSION['user']->email;
+        $statement->bindParam(1, $email);
+        $statement->bindParam(2, $i);
+        $statement->execute();
+        $result = $statement->rowCount();
+        return $result > 0;
+    }
+
 }
