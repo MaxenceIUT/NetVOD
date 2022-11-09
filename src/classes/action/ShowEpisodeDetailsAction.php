@@ -2,8 +2,8 @@
 
 namespace iutnc\netvod\action;
 
-use iutnc\netvod\lists\Episode;
-use iutnc\netvod\lists\Review;
+use iutnc\netvod\data\Episode;
+use iutnc\netvod\data\Review;
 
 class ShowEpisodeDetailsAction extends Action
 {
@@ -12,7 +12,7 @@ class ShowEpisodeDetailsAction extends Action
     {
         $episode = Episode::find($_GET['id']);
         $user = $_SESSION['user'];
-        $user->addOnGoingSeries($episode->serie_id);
+        $user->addWatchedEpisode($episode);
         $html = $episode->toHTML();
         $comments = $user->getComment($episode->serie_id);
         //Si le commentaire existe on l'affiche, sinon on affiche un formulaire
