@@ -3,6 +3,7 @@
 namespace iutnc\netvod\lists;
 
 use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\users\User;
 
 class Serie
 {
@@ -37,6 +38,13 @@ class Serie
         <h3>$this->titre</h3>
         <img src="assets/img/$this->image" alt="Image de la série $this->titre">
         <p>$this->descriptif</p>
+        END;
+        if (!User::isFavorite($this->id)) {
+            $html .= "<a href='index.php?action=add-favorite-serie&id=$this->id'>Ajouter aux favoris</a>";
+        } else {
+            $html .= "<a href='index.php?action=remove-favorite-serie&id=$this->id'>Retirer des favoris</a>";
+        }
+        $html .= <<<END
         <p>Année: $this->annee</p>
         <p>Date d'ajout: $this->date_ajout</p>
         END;
@@ -63,5 +71,4 @@ class Serie
     {
         return $this->$name;
     }
-
 }
