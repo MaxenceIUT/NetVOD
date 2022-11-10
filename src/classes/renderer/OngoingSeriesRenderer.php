@@ -27,10 +27,21 @@ class OngoingSeriesRenderer implements Renderer
     function render(int $mode): string
     {
         $lastEp = $this->lastEp();
+        if ($lastEp == 0) $lastEp = 1;
+        $user = Auth::getCurrentUser();
+        $episode = Episode::find($lastEp);
+        if ($user != null) {
+            if (!$episode->isBookmarkedBy($user)) {
+                $link = "index.php?action=show-episode-details&id={$lastEp}&bookmark=false";
+            } else {
+                $link = "index.php?action=show-episode-details&id={$lastEp}&bookmark=true";
+            }
+        }
+
         return <<<END
             <ul>
                 <div class="serie">
-                    <li><a href="index.php?action=show-episode-details&id=$lastEp">Reprendre {$this->series->titre}</a></li>
+                    <li><a href="$link">Reprendre {$this->series->titre}</a></li>
                     <img src="{$this->series->image}" alt="Image de la série {$this->series->titre}">
                 </div>
             </ul>
