@@ -1,0 +1,45 @@
+h1 {
+    padding-bottom: 50px;
+}
+
+.review {
+    width: 400px;
+    min-height: 200px;
+    gap: 10px;
+}
+
+.review .user p {
+    color: var(--text-primary-color);
+    font-weight: 500;
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.review .comment {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+    flex: 1;
+}
+
+.review .comment h4 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    width: 20%;
+}
+
+.review .comment h4 span {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+}
+
+.review .comment p {
+    font-size: 1.1rem;
+    color: var(--text-subtitle-color);
+    width: 80%;
+}

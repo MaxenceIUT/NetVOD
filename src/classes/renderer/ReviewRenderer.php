@@ -21,12 +21,12 @@ class ReviewRenderer implements Renderer
     {
         if ($mode == Renderer::FULL) {
             return <<<END
-            <div class="review">
+            <div class="card review">
                 <div class="user">
                     <p>{$this->review->email}</p>                
                 </div>
                 <div class="comment">
-                    <h4>{$this->review->score}</h4>
+                    <h4>{$this->review->score}<span>/10</span></h4>
                     <p>{$this->review->comment}</p>
                 </div>
             </div>

@@ -15,7 +15,7 @@ class ShowReviewsAction extends Action
         $id = $_GET['id'];
         $series = Series::find($id);
 
-        $html = "<h3>Reviews de la série: " . $series->titre . "</h3>";
+        $html = "<h1>Reviews de la série: " . $series->titre . "</h1>";
 
         $reviews = $series->getReviews();
 
