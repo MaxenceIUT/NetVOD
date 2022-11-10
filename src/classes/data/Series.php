@@ -25,22 +25,36 @@ class Series
             return Series::getAll();
         }
         $array = [];
+
+        $bool = false;
         if (isset($filtre['genre'])) {
             $sql = "select series.id from series inner join genres g on series.genre_id = g.id where genre = ?";
             $statement = $pdo->prepare($sql);
             $statement->bindParam(1, $filtre['genre']);
             $statement->execute();
-            $array = $statement->fetchAll();
-        }
-        if (isset($filtre['public'])) {
-            $sql = "select series.id from series inner join types_publics p on series.id = p.id where p.type_public = ?";
-            $statement = $pdo->prepare($sql);
-            $statement->bindParam(1, $filtre['public']);
-            $statement->execute();
-            if (count($array) == 0) {
-                $array = $statement->fetchAll();
-            } else {
-                $array = array_intersect($array, $statement->fetchAll());
+            $array[0] = $statement->fetchAll();
+            $bool = true;
+            if (isset($filtre['public'])) {
+                $sql = "select series.id from series inner join types_publics p on series.id = p.id where p.type_public = ?";
+                $statement = $pdo->prepare($sql);
+                $statement->bindParam(1, $filtre['public']);
+                $statement->execute();
+                $arrayPublic = $statement->fetchAll();
+
+                $array = array_intersect($array, $arrayPublic);
+
+            }
+        } else {
+
+            if (isset($filtre['public'])) {
+
+                $sql = "select series.id from series inner join types_publics p on series.id = p.id where p.type_public = ?";
+                $statement = $pdo->prepare($sql);
+                $statement->bindParam(1, $filtre['public']);
+                $statement->execute();
+                $arrayPublic = $statement->fetchAll();
+                $array = $arrayPublic;
+
             }
         }
         $series = [];
@@ -54,7 +68,8 @@ class Series
      * Method to find all series of the database
      * @return array Array of Series
      */
-    public static function getAll(): array
+    public
+    static function getAll(): array
     {
         $pdo = ConnectionFactory::getConnection();
         $statement = $pdo->query("SELECT id FROM series");
@@ -70,7 +85,8 @@ class Series
      * @param int $id Serie id
      * @return Series Serie object
      */
-    public static function find(int $id): Series
+    public
+    static function find(int $id): Series
     {
         $pdo = ConnectionFactory::getConnection();
 
@@ -81,7 +97,8 @@ class Series
         return $statement->fetchObject(Series::class);
     }
 
-    public static function sortBy(?string $sort, ?string $i, array $arrayList): array
+    public
+    static function sortBy(?string $sort, ?string $i, array $arrayList): array
     {
         $series = $arrayList;
         if ($sort == "title") {
@@ -113,7 +130,8 @@ class Series
      * Method to return the number of episode of a serie
      * @return int Number of episode
      */
-    public function countEpisodes(): int
+    public
+    function countEpisodes(): int
     {
         $born = $this->getBorneEp();
         return $born['max'] - $born['min'] + 1;
@@ -122,7 +140,8 @@ class Series
     /**
      * @return int the score of the series, or -1 if no user has reviewed it
      */
-    public function getScore(): int
+    public
+    function getScore(): int
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "select avg(score) as score from series_reviews where id = ?";
@@ -139,7 +158,8 @@ class Series
      * @param User $user User object
      * @return bool True if bookmarked, false otherwise
      */
-    public function isBookmarkedBy(User $user): bool
+    public
+    function isBookmarkedBy(User $user): bool
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "select * from bookmarked_series where email = ? and id = ?";
@@ -159,7 +179,8 @@ class Series
      * Method to get the reviews of the serie
      * @return array Array of Review
      */
-    public function getReviews(): array
+    public
+    function getReviews(): array
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "select * from series_reviews where id = ?";
@@ -170,7 +191,8 @@ class Series
     }
 
 
-    public function isAlreadySeenBy(User $user): bool
+    public
+    function isAlreadySeenBy(User $user): bool
     {
         $pdo = ConnectionFactory::getConnection();
         $sql = "select count(*) from watched_episodes where email = ? and id in (select id from episode where serie_id = ?)";
@@ -184,7 +206,8 @@ class Series
         return $result[0] == $this->countEpisodes();
     }
 
-    private function getEpisodeCount(): int
+    private
+    function getEpisodeCount(): int
     {
         $born = $this->getBorneEp();
         return $born['max'] - $born['min'] + 1;
@@ -194,7 +217,8 @@ class Series
      * Get the id of the first and the last episode of the serie
      * @return array the id of the first and the last episode
      */
-    public function getBorneEp(): array
+    public
+    function getBorneEp(): array
     {
         $pdo = ConnectionFactory::getConnection();
         $sql = "select min(id), max(id) from episode where serie_id = ?";
@@ -206,7 +230,8 @@ class Series
         return ['min' => $result[0], 'max' => $result[1]];
     }
 
-    public function __get($name)
+    public
+    function __get($name)
     {
         return $this->$name;
     }

@@ -75,18 +75,20 @@ class ViewSeriesAction extends Action
                 $html .= <<<END
                         <label for="i">Inverser l'ordre</label>
                         <input type = "checkbox" name = "i" id = "i" >
-                        <input type = "submit" value = "Trier" >
+                        <input type = "submit" value = "Rechercher" >
                     </form>
                     END;
             }
             $param = [];
             if (isset($_GET['genre'])) {
                 $genre = $_GET['genre'];
-                $param = ["genre" => $genre];
+                $param = ['genre' => $genre];
+//                array_push($param, $genre);
             }
             if (isset($_GET['public'])) {
                 $public = $_GET['public'];
-                $param = ["public" => $public];
+                $param = ['public' => $public];
+//                array_push($param, $public);
             }
 
             $serieList = Series::getAllGenre($param);
