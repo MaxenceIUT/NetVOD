@@ -20,15 +20,6 @@ class ResetPassword extends Action
         return false;
     }
 
-    private function deleteToken(?User $user)
-    {
-        $pdo = ConnectionFactory::getConnection();
-        $sql = "delete from lost_password_tokens where email = :email";
-        $statement = $pdo->prepare($sql);
-        $statement->bindParam(":email", $user->email);
-        $statement->execute();
-    }
-
     public function execute(): string
     {
         //Verification token
@@ -66,6 +57,7 @@ class ResetPassword extends Action
             if ($password == $password2) {
                 Auth::changePassword($user->email, $password);
                 $html = "Mot de passe modifié";
+                ResetPassword::supprToken($user);
                 $html .= "<a href='index.php?action=login'>Se connecter</a>";
             } else {
                 $html = "Les mots de passe ne correspondent pas";

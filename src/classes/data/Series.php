@@ -65,13 +65,14 @@ class Series
         return $series;
     }
 
-
+    /**
+     * Method to return the number of episode of a serie
+     * @return int Number of episode
+     */
     public function countEpisodes(): int
     {
-        $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->prepare("SELECT COUNT(*) FROM episode WHERE serie_id = ?");
-        $statement->execute([$this->id]);
-        return $statement->fetchColumn();
+        $born = $this->getBorneEp();
+        return $born['max'] - $born['min'] + 1;
     }
 
     public static function sortBy(?string $sort, ?string $i): array
@@ -181,7 +182,7 @@ class Series
         $statement->execute();
         $result = $statement->fetch();
 
-        return $result[0] == $this->getEpisodeCount();
+        return $result[0] == $this->countEpisodes();
     }
 
     /**
@@ -203,12 +204,6 @@ class Series
     public function __get($name)
     {
         return $this->$name;
-    }
-
-    private function getEpisodeCount(): int
-    {
-        $born = $this->getBorneEp();
-        return $born['max'] - $born['min'] + 1;
     }
 
 }
