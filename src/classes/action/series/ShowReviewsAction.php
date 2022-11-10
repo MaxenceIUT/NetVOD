@@ -16,8 +16,9 @@ class ShowReviewsAction extends Action
         $series = Series::find($id);
 
         $html = <<<END
-        <h1>Reviews de la série $series->titre</h1>
-        <div class="reviews">
+        <div class="reviews-container">
+            <h1>Reviews de la série $series->titre</h1>
+            <div class="reviews">
         END;
 
         $reviews = $series->getReviews();
@@ -28,6 +29,7 @@ class ShowReviewsAction extends Action
         }
 
         $html .= <<<END
+            </div>
         </div>
         END;
 
