@@ -2,15 +2,15 @@
 
 Ce dépôt est le rendu du projet NetVOD, réalisé par :
 
-- Maxence PETIT @MaxenceIUT
-- Gaspar BAUBY @GaspardBBY
-- Jules HOLDER @KTelineSama
+- Maxence PETIT
+- Gaspar BAUBY
+- Jules HOLDER
 
 ## Tâches réalisées
 
 | Tâche| Auteur | Remarque|
 |--|--|--|
-| Tâche #1| Maxence PETIT |
+| Tâche 1| Maxence PETIT |
 | Tâche 2| Maxence PETIT|
 | Tâche 3| Gaspard BAUBY|
 | Tâche 4| Jules HOLDER|
