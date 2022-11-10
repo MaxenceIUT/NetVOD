@@ -10,7 +10,7 @@ class Series
 {
     protected int $id;
     protected string $titre, $descriptif, $date_ajout, $annee;
-    protected string $image = "";
+    protected string $img = "";
 
     /**
      * Method to find all series of the database
@@ -160,6 +160,11 @@ class Series
     public function __get($name)
     {
         return $this->$name;
+    }
+
+    public function getReviewsCount(): int
+    {
+        return count($this->getReviews());
     }
 
     private function getEpisodeCount(): int
