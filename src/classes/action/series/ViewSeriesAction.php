@@ -59,15 +59,19 @@ class ViewSeriesAction extends Action
                 </form>
                 <div class="items">
 
-                <form action="index.php?action=view-series" method="post">
-                    <label for='select-sort'>Trier par</label>
-                END;
+            <form action="index.php?action=view-series" method="post">
+            <label for='select-sort'>Trier par</label>
+            END;
 
             $html .= "<select name='sort'>";
-            for ($i = 0; $i < count($sorts); $i++) {
-                $html .= "<option value='$sorts[$i]'>$text[$i]</option>";
-                $html .= "</select>";
+            for ($increment = 0; $increment < count($sorts); $increment++) {
+                if ($sorts[$i] == $sort) {
+                    $html .= "<option value='$sorts[$increment]' selected>$text[$increment]</option>";
+                } else {
+                    $html .= "<option value='$sorts[$increment]'>$text[$increment]</option>";
+                }
             }
+            $html .= "</select>";
 
             if ($i == 'true') {
                 $html .= <<<END
@@ -135,6 +139,7 @@ class ViewSeriesAction extends Action
             $html .= "</div>";
         }
         return $html;
+
     }
 
     public function getAvailableGenres(): array
