@@ -16,7 +16,8 @@ use iutnc\netvod\action\series\DisplayFavoritesSeriesAction;
 use iutnc\netvod\action\series\ShowEpisodeDetailsAction;
 use iutnc\netvod\action\series\ShowReviewsAction;
 use iutnc\netvod\action\series\ShowSerieDetailsAction;
-use iutnc\netvod\action\series\ViewSerieAction;
+use iutnc\netvod\action\series\ViewSeriesAction;
+use iutnc\netvod\auth\Auth;
 
 class Dispatcher
 {
@@ -35,7 +36,7 @@ class Dispatcher
             new LogoutAction(),
             new AccountAction(),
             new UserHomeAction(),
-            new ViewSerieAction(),
+            new ViewSeriesAction(),
             new AddFavoriteSerieAction(),
             new RemoveFavoriteSerieAction(),
             new DisplayFavoritesSeriesAction(),
@@ -88,25 +89,59 @@ class Dispatcher
 
     public function renderPage(string $html): void
     {
+        $header = $this->generateHeader();
+
         $htmlString = <<<END
         <!DOCTYPE html>
         <html lang="fr">
             <head>
-                <meta charset="UTF - 8">
-                <title>NetVOD</title>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="assets/css/style.css">
+                <title>NetVOD</title>
             </head>
             <body>
-        END;
-
-        $htmlString .= $html;
-
-        $htmlString .= <<<END
+                <header>
+                    $header                
+                </header>
+                <div class="container">
+                    $html
+                </div>
+                <footer>
+                    <p>&copy; 2022 — BAUBY Gaspard, HOLDER Jules, PETIT Maxence</p>
+                </footer>
             </body>
         </html>
         END;
 
         echo $htmlString;
+    }
+
+    private function generateHeader(): string
+    {
+        $user = Auth::getCurrentUser();
+        $header = <<<END
+            <div class="logo">
+                <span>NetVOD</span>            
+            </div>
+            <div class="menu">
+        END;
+
+        if ($user == null) {
+            $header .= <<<END
+                <a href="index.php?action=login">Se connecter</a>
+                <a href="index.php?action=register">S'inscrire</a>
+            END;
+        } else {
+            $header .= <<<END
+                <a href="index.php?action=view-series">Consulter le catalogue</a>
+                <a href="index.php?action=home">Mon compte</a>
+                <a href="index.php?action=logout">Se déconnecter</a>
+            END;
+        }
+
+        return $header;
     }
 
 }

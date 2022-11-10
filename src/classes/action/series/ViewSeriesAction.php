@@ -4,19 +4,14 @@ namespace iutnc\netvod\action\series;
 
 use iutnc\netvod\action\Action;
 use iutnc\netvod\data\Series;
-use iutnc\netvod\db\ConnectionFactory;
 use iutnc\netvod\renderer\Renderer;
 use iutnc\netvod\renderer\SeriesRenderer;
 
-class ViewSerieAction extends Action
+class ViewSeriesAction extends Action
 {
 
     public function execute(): string
     {
-        $pdo = ConnectionFactory::getConnection();
-        Series::getAll();
-        $statement = $pdo->query("SELECT id FROM series");
-
         $html = "<h3>Series disponible(s) sur le catalogue: <br></h3>";
 
         $seriesList = Series::getAll();
@@ -30,7 +25,7 @@ class ViewSerieAction extends Action
 
     public function getActionName(): string
     {
-        return "view-serie";
+        return "view-series";
     }
 
     public function shouldBeAuthenticated(): bool
