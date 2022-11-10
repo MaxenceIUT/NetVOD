@@ -11,24 +11,19 @@ class LandingPageAction extends Action
     {
         $user = Auth::getCurrentUser();
         $html = <<<END
-        <h1>Bienvenue sur NetVOD</h1>
-        <h2>NetVOD est la plateforme de SVOD la plus géniale du monde</h2>
+        <div class="fullscreen-background">
+            <img width="100%" height="100%" src="assets/img/background.jpg" alt="Background" />
+        </div>
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Bienvenue sur NetVOD</h1>
+                <div class="details">
+                    <h2>NetVOD est la plateforme de SVOD la plus géniale du monde</h2>
+                </div>
+            </div>
+        </div>
         END;
 
-        if ($user == null) {
-            $html .= <<<END
-            <a href="index.php?action=login">Se connecter</a>
-            <a href="index.php?action=register">S'inscrire</a>
-            END;
-        } else {
-            $html .= <<<END
-            <div class="account">
-                <p>Bonjour $user->first_name 👋</p>
-                <a href="index.php?action=home">Mon compte</a>
-                <a href="index.php?action=logout">Se déconnecter</a>
-            </div>
-            END;
-        }
         return $html;
     }
 
