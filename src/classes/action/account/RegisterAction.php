@@ -36,8 +36,9 @@ class RegisterAction extends Action
             $passwordRepeat = $_POST['password-repeat'];
             if ($password == $passwordRepeat) {
                 try {
-                    Auth::register($firstName, $lastName, $email, $password);
-                    return "Inscription réussie !";
+                    $link = Auth::register($firstName, $lastName, $email, $password);
+                    mb_send_mail($email, "Confirmation de votre compte", "Veuillez cliquer sur ce lien pour confirmer votre compte : $link");
+                    return "Inscription réussie ! Utilisez ce lien pour activer votre compte: <a href='$link'>Activer mon compte</a>";
                 } catch (RegisterException $e) {
                     return "Erreur lors de l'inscription : " . $e->getMessage();
                 }

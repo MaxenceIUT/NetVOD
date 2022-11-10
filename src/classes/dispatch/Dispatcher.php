@@ -3,6 +3,7 @@
 namespace iutnc\netvod\dispatch;
 
 use iutnc\netvod\action\account\AccountAction;
+use iutnc\netvod\action\account\ActivateAccountAction;
 use iutnc\netvod\action\account\LoginAction;
 use iutnc\netvod\action\account\LogoutAction;
 use iutnc\netvod\action\account\RegisterAction;
@@ -40,7 +41,8 @@ class Dispatcher
             new DisplayFavoritesSeriesAction(),
             new ShowEpisodeDetailsAction(),
             new ShowSerieDetailsAction(),
-            new ShowReviewsAction()
+            new ShowReviewsAction(),
+            new ActivateAccountAction()
         );
     }
 

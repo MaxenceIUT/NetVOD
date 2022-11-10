@@ -3,12 +3,16 @@
 namespace iutnc\netvod\auth;
 
 use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\exceptions\LoginException;
 use iutnc\netvod\exceptions\RegisterException;
 use iutnc\netvod\users\User;
 
 class Auth
 {
 
+    /**
+     * @throws LoginException
+     */
     public static function authenticate($email, $password): ?User
     {
         $pdo = ConnectionFactory::getConnection();
@@ -18,8 +22,14 @@ class Auth
         if ($statement->execute()) {
             $user = $statement->fetchObject(User::class);
             if ($user && password_verify($password, $user->password)) {
-                $_SESSION["user"] = $user;
-                return $user;
+                if ($user->activated) {
+                    $_SESSION["user"] = $user;
+                    return $user;
+                } else {
+                    throw new LoginException("Compte non activé, veuillez vérifier vos mails");
+                }
+            } else {
+                throw new LoginException("Email ou mot de passe incorrect");
             }
         }
         return null;
@@ -34,9 +44,14 @@ class Auth
     }
 
     /**
-     * @throws RegisterException
+     * @param $firstName string The user first name
+     * @param $lastName string The user last name
+     * @param $email string The user email
+     * @param $password string The user password
+     * @return string The activation link
+     * @throws RegisterException If an exception occurs during the registration
      */
-    public static function register($firstName, $lastName, $email, $password)
+    public static function register($firstName, $lastName, $email, $password): string
     {
         $pdo = ConnectionFactory::getConnection();
 
@@ -64,6 +79,10 @@ class Auth
         $statement->bindParam(":last_name", $lastName);
         $statement->bindParam(":first_name", $firstName);
         if (!$statement->execute()) throw new RegisterException("Une erreur est survenue lors de l'inscription");
+
+        $user = User::find($email);
+        $activationToken = $user->generateActivationToken();
+        return "index.php?action=activate-account&email=$email&token=$activationToken";
     }
 
 }

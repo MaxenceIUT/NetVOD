@@ -4,6 +4,7 @@ namespace iutnc\netvod\action\account;
 
 use iutnc\netvod\action\Action;
 use iutnc\netvod\auth\Auth;
+use iutnc\netvod\exceptions\LoginException;
 
 class LoginAction extends Action
 {
@@ -28,13 +29,16 @@ class LoginAction extends Action
         } else if ($this->http_method == "POST") {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $user = Auth::authenticate($email, $password);
-            if ($user == null) {
-                return "Utilisateur inconnu";
-            } else {
-                $_SESSION['user'] = $user;
+            try {
+                Auth::authenticate($email, $password);
                 header("Location: index.php?action=home");
                 return "Connexion réussie";
+            } catch (LoginException $e) {
+                $html = <<<END
+                Une erreur est survenue lors de la connexion, veuillez réessayer.<br>
+                END;
+                $html .= $e->getMessage();
+                return $html;
             }
         } else {
             return "Méthode non autorisée";
