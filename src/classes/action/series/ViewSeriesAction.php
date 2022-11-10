@@ -29,21 +29,24 @@ class ViewSeriesAction extends Action
                 <select name="genre">
                     <option value="all">Tous les genres</option>
                 END;
+
             foreach ($genres as $genre) {
                 $nomGenre = $genre['genre'];
                 $html .= "<option value='$nomGenre'>$nomGenre</option>";
-
             }
+
             $html .= <<<END
                 </select> 
                 <label for='select-public'>Public</label>
                 <select name="public">
                     <option value="all">Tous public</option>
                 END;
+
             foreach ($public as $pub) {
                 $nomPublic = $pub['type_public'];
                 $html .= "<option value='$nomPublic'>$nomPublic</option>";
             }
+
             $html .= <<<END
                 </select> 
                 <input type="submit" value="Rechercher">  
