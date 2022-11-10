@@ -66,6 +66,16 @@
     object-fit: cover;
 }
 
+.user-review {
+    width: 100%;
+    padding: 80px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-width: 768px) {
     .episode-player .infos {
         flex-direction: column;

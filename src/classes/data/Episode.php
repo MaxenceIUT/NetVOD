@@ -53,7 +53,7 @@ class Episode
      */
     public function isBookmarkedBy(User $user): bool
     {
-        $comments = $user->getComment($this->serie_id);
+        $comments = $user->getReview($this->serie_id);
         return ($comments != null) ? true : false;
     }
 

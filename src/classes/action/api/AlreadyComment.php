@@ -5,6 +5,8 @@ namespace iutnc\netvod\action\api;
 use iutnc\netvod\action\Action;
 use iutnc\netvod\auth\Auth;
 use iutnc\netvod\data\Episode;
+use iutnc\netvod\renderer\Renderer;
+use iutnc\netvod\renderer\ReviewRenderer;
 
 class AlreadyComment extends Action
 {
@@ -13,17 +15,17 @@ class AlreadyComment extends Action
     {
         $episode = Episode::find($_GET['id']);
         $user = Auth::GetCurrentUser();
-        $comments = $user->getComment($episode->serie_id);
-        $html = <<<END
-            <div class="comments">
-                <h3>comment laissé</h3>
-                $comments->comment
-                <h3>Note donné pour la serie:</h3>
-                $comments->score
-            </div>           
-            END;
-        return $html;
+        $review = $user->getReview($episode->serie_id);
 
+        $renderer = new ReviewRenderer($review);
+        $reviewRender = $renderer->render(Renderer::FULL);
+
+        return <<<END
+        <div class="user-review">
+            <h3>Votre avis est publié ! <a href="index.php?action=show-reviews&id={$episode->serie_id}">Voir tous les avis</a></h3>
+            $reviewRender
+        </div>           
+        END;
     }
 
     public function getActionName(): string

@@ -21,15 +21,16 @@ class ShowEpisodeDetailsAction extends Action
         $renderEpisode = new EpisodeRenderer($episode);
         $html = $renderEpisode->render(Renderer::FULL);
 
-        //Si le commentaire existe on l'affiche, sinon on affiche un formulaire
-        if (isset($_GET['bookmark'])) {
-            if ($_GET['bookmark'] == 'true') {
-                $action = new AlreadyComment();
-            } else {
-                $action = new AddComment();
-            }
-            $html .= $action->execute();
+        $comment = $user->getReview($episode->serie_id);
+
+        if ($comment != null) {
+            $action = new AlreadyComment();
+        } else {
+            $action = new AddComment();
         }
+
+        $html .= $action->execute();
+
         return $html;
     }
 
@@ -43,5 +44,5 @@ class ShowEpisodeDetailsAction extends Action
     {
         return true;
     }
-    
+
 }

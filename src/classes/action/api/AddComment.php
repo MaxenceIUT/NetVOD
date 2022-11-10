@@ -16,11 +16,13 @@ class AddComment extends Action
         $html = "";
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $html .= <<<END
-                <div class="commentsForm">
-                    <h3>comments</h3>
+                <div class="review-form">
+                    <h4>Donne nous ton avis sur cette série</h4>
                     <form action="?action=show-episode-details&id={$_GET['id']}&bookmark=false" method="post">
-                        <input type="Number" name="notation" placeholder="Note (0-10)">
-                        <textarea name="comment" id="comment" cols="10" rows="1"></textarea>
+                        <label for="notation">Note</label>
+                        <input type="number" name="notation" placeholder="Note (0-10)" min="0" max="10" required>
+                        <label for="comment">Commentaire</label>
+                        <textarea name="comment" id="comment" required></textarea>
                         <input type="submit" value="Envoyer">
                     </form>
                 </div>

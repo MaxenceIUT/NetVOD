@@ -142,7 +142,7 @@ class User
      * @param int $id id of the series
      * @return Review|null if he commented the series, return the review, else return null
      */
-    public function getComment(int $id): ?Review
+    public function getReview(int $id): ?Review
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "select * from series_reviews where id = :saison_id and email = :email";
