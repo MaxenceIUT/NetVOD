@@ -13,7 +13,7 @@ class DisplayFavoritesSeriesAction extends Action
     {
         $html = "Vos séries préférées: ";
         $pdo = ConnectionFactory::getConnection();
-        $query = "select id from favorite_series where email = :email";
+        $query = "select id from bookmarked_series where email = :email";
         $statement = $pdo->prepare($query);
         $email = Auth::getCurrentUser()->email;
         $statement->bindParam(":email", $email);
