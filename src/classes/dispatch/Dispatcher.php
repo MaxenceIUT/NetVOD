@@ -142,7 +142,8 @@ class Dispatcher
             END;
         } else {
             $header .= <<<END
-                <a class="button-link button-link__text" href="index.php?action=home">Mon compte</a>
+                <a class="button-link button-link__text" href="index.php?action=home">Accueil</a>
+                <a class="button-link button-link__text" href="index.php?action=account">Mon compte</a>
                 <a class="button-link button-link__text" href="index.php?action=view-series">Consulter le catalogue</a>
                 <a class="button-link button-link__red button-link__text" href="index.php?action=logout">Se déconnecter</a>
             END;
