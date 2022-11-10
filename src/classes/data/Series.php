@@ -81,9 +81,9 @@ class Series
         return $statement->fetchObject(Series::class);
     }
 
-    public static function sortBy(?string $sort, ?string $i): array
+    public static function sortBy(?string $sort, ?string $i, array $arrayList): array
     {
-        $series = Series::getAll();
+        $series = $arrayList;
         if ($sort == "title") {
             usort($series, function ($a, $b) {
                 return $a->titre <=> $b->titre;

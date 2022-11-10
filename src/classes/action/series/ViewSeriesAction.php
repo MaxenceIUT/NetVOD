@@ -99,6 +99,8 @@ class ViewSeriesAction extends Action
                 $seeGenre = " avec comme public $public";
                 $param = ["public" => $public];
             }
+
+            $serieList = Series::getAllGenre($param);
             $tri = "title";
             $i = "false";
             if (isset($_GET['sort'])) {
@@ -108,7 +110,7 @@ class ViewSeriesAction extends Action
                 $i = $_GET['i'];
             }
 
-            $seriesList = Series::sortBy($tri, $i);
+            $seriesList = Series::sortBy($tri, $i, $serieList);
             foreach ($seriesList as $series) {
                 $renderer = new SeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
@@ -127,13 +129,15 @@ class ViewSeriesAction extends Action
                     $header .= "&public=$public";
                 }
             }
-            $sort = $_POST['sort'];
-            $header .= "&sort=$sort";
-            $i = "false";
-            if ($_POST['i'] == "on") {
-                $i = "true";
+            if (isset($_POST['sort'])) {
+                $sort = $_POST['sort'];
+                $header .= "&sort=$sort";
+                $i = "false";
+                if ($_POST['i'] == "on") {
+                    $i = "true";
+                }
+                $header .= "&i=$i";
             }
-            $header .= "&i=$i";
             header($header);
 
             $html .= "</div>";

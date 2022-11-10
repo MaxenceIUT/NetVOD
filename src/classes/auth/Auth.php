@@ -95,6 +95,7 @@ class Auth
         $statement = $pdo->prepare($sql);
 
         $hash = self::verifPassword($password);
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $hash);
         $statement->execute();

@@ -36,6 +36,8 @@ class PasswordForget extends Action
                 $sql = "insert into lost_password_tokens(email, token, token_expiration) values (?, ?, ?)";
                 $pdo = ConnectionFactory::getConnection();
                 $statement = $pdo->prepare($sql);
+
+                $email = filter_var($email, FILTER_SANITIZE_EMAIL);
                 $statement->bindParam(1, $email);
                 $statement->bindParam(2, $token);
                 $statement->bindParam(3, $tokenEpiration);
