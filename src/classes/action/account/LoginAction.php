@@ -15,15 +15,17 @@ class LoginAction extends Action
     {
         parent::__construct();
         $this->loginForm = <<<END
-        <form action="index.php?action=login" method="post">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password" required minlength="8" maxlength="128">
-            <input type="submit" value="Se connecter">
-        </form>
-        <a href="index.php?action=password-forget">Mot de passe oublie</a>
-
+        <div class="login">
+            <h1>Connexion</h1>
+            <form action="index.php?action=login" method="post">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="example@domain.tld" required>
+                <label for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" placeholder="Mot de passe" required minlength="8" maxlength="128">
+                <a href="index.php?action=password-forget">Mot de passe oublié ?</a>
+                <input class="button-link button-link__plain" type="submit" value="Se connecter">
+            </form>
+        </div>
         END;
     }
 

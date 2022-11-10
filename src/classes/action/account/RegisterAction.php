@@ -15,18 +15,19 @@ class RegisterAction extends Action
     {
         parent::__construct();
         $this->registerForm = <<<END
+        <h1>Inscription</h1>
         <form action="index.php?action=register" method="post">
             <label for="first-name">Prénom</label>
-            <input type="text" name="first-name" id="first-name" required>
+            <input type="text" name="first-name" id="first-name" placeholder="Jean" required>
             <label for="last-name">Nom</label>
-            <input type="text" name="last-name" id="last-name" required>
+            <input type="text" name="last-name" id="last-name" placeholder="DUPONT" required>
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
+            <input type="email" name="email" id="email" placeholder="example@domain.tld" required>
             <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password" required minlength="8" maxlength="128">
+            <input type="password" name="password" id="password" placeholder="Mot de passe" required minlength="8" maxlength="128">
             <label for="password-repeat">Répéter le mot de passe</label>
-            <input type="password" name="password-repeat" id="password-repeat" required minlength="8" maxlength="128">
-            <input type="submit" value="S'inscrire">
+            <input type="password" name="password-repeat" id="password-repeat" placeholder="Répéter le mot de passe" required minlength="8" maxlength="128">
+            <input class="button-link button-link__plain" type="submit" value="S'inscrire">
         </form>
         END;
     }

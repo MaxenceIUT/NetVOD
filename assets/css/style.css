@@ -2,6 +2,7 @@
 @import url('user-home.css');
 @import url('series.css');
 @import url('episodes.css');
+@import url('login.css');
 
 html,
 body {
@@ -93,7 +94,7 @@ a {
     text-decoration: none;
 }
 
-a.button-link {
+.button-link {
     display: inline-block;
     position: relative;
     text-align: center;
@@ -105,21 +106,21 @@ a.button-link {
     text-decoration: none;
 }
 
-a.button-link.button-link__text {
+.button-link.button-link__text {
     color: var(--text-anchor-color);
     background: none;
 }
 
-a.button-link.button-link__plain {
+.button-link.button-link__plain {
     background: var(--text-anchor-color);
     color: white;
 }
 
-a.button-link.button-link__red {
+.button-link.button-link__red {
     --text-anchor-color: var(--text-anchor-red-color);
 }
 
-a.button-link::after {
+.button-link::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -131,11 +132,11 @@ a.button-link::after {
     transition: width .3s ease;
 }
 
-a.button-link:hover::after {
+.button-link:hover::after {
     opacity: 0.2;
 }
 
-a.button-link:focus {
+.button-link:focus {
     background: var(--text-anchor-color);
     color: white;
 }
