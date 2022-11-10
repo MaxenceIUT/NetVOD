@@ -4,10 +4,9 @@ namespace iutnc\netvod\action\account;
 
 use iutnc\netvod\action\Action;
 use iutnc\netvod\action\series\DisplayAlreadySeenAction;
+use iutnc\netvod\action\series\DisplayBookmarkedSeries;
 use iutnc\netvod\action\series\DisplayOngoingSeries;
 use iutnc\netvod\auth\Auth;
-use iutnc\netvod\renderer\Renderer;
-use iutnc\netvod\renderer\SeriesRenderer;
 
 class UserHomeAction extends Action
 {
@@ -28,28 +27,16 @@ class UserHomeAction extends Action
 
             $displayOnGoingSeries = new DisplayOnGoingSeries();
             $html .= $displayOnGoingSeries->execute();
-            $html .= <<<END
-                    </div>
-                </div>
-                <div class="bookmarked">
-                    <h3>Revivre les meilleurs moments</h3>
-                    <div class="items">
-            END;
 
-            $bookmarkedSeries = $user->getBookmarkedSeries();
-            foreach ($bookmarkedSeries as $series) {
-                $renderer = new SeriesRenderer($series);
-                $html .= $renderer->render(Renderer::COMPACT);
-            }
-
-            $html .= <<<END
-                    </div>
-                </div>
-            </main>
-            END;
+            $displayBookmarkedSeries = new DisplayBookmarkedSeries();
+            $html .= $displayBookmarkedSeries->execute();
 
             $DisplayAlreadySeeAction = new DisplayAlreadySeenAction();
             $html .= $DisplayAlreadySeeAction->execute();
+
+            $html .= <<<END
+            </main>
+            END;
 
             return $html;
         } else {

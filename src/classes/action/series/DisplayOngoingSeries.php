@@ -19,13 +19,24 @@ class DisplayOngoingSeries extends Action
             <div class="items">
         END;
 
-        $ongoingSeries = $user->getOngoingSeries();
+        $ongoingSeries = array_reduce($user->getOngoingSeries(), function ($carry, $series) use ($user) {
+            if (!$series->isAlreadySeenBy($user)) {
+                $carry[] = $series;
+            }
+            return $carry;
+        }, []);
 
         foreach ($ongoingSeries as $series) {
             if (!$series->isAlreadySeenBy($user)) {
                 $renderer = new OngoingSeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
             }
+        }
+
+        if (count($ongoingSeries) == 0) {
+            $html .= <<<END
+            <p>Vous n'avez pas de série en cours de visionnage</p>
+            END;
         }
 
         $html .= <<<END

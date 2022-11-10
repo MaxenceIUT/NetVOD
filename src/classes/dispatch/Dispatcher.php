@@ -137,8 +137,8 @@ class Dispatcher
 
         if ($user == null) {
             $header .= <<<END
-                <a href="index.php?action=login">Se connecter</a>
-                <a href="index.php?action=register">S'inscrire</a>
+                <a class="button-link button-link__text" href="index.php?action=login">Se connecter</a>
+                <a class="button-link button-link__plain" href="index.php?action=register">S'inscrire</a>
             END;
         } else {
             $header .= <<<END

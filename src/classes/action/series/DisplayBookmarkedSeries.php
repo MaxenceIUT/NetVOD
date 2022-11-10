@@ -4,11 +4,10 @@ namespace iutnc\netvod\action\series;
 
 use iutnc\netvod\action\Action;
 use iutnc\netvod\auth\Auth;
-use iutnc\netvod\data\Series;
 use iutnc\netvod\renderer\Renderer;
 use iutnc\netvod\renderer\SeriesRenderer;
 
-class DisplayAlreadySeenAction extends Action
+class DisplayBookmarkedSeries extends Action
 {
 
     public function execute(): string
@@ -16,26 +15,20 @@ class DisplayAlreadySeenAction extends Action
         $user = Auth::getCurrentUser();
 
         $html = <<<END
-        <div class="already-seen">
-            <h3>Série(s) déjà regardée(s)</h3>
+        <div class="bookmarked">
+            <h3>Revivre les meilleurs moments</h3>
             <div class="items">
         END;
 
-        $alreadySeenSeries = array_reduce(Series::getAll(), function ($carry, $item) use ($user) {
-            if ($item->isAlreadySeenBy($user)) {
-                $carry[] = $item;
-            }
-            return $carry;
-        }, []);
-
-        foreach ($alreadySeenSeries as $series) {
+        $bookmarkedSeries = $user->getBookmarkedSeries();
+        foreach ($bookmarkedSeries as $series) {
             $renderer = new SeriesRenderer($series);
             $html .= $renderer->render(Renderer::COMPACT);
         }
 
-        if (count($alreadySeenSeries) == 0) {
+        if (count($bookmarkedSeries) == 0) {
             $html .= <<<END
-            <p>Vous n'avez pas terminé de regarder une série</p>
+            <p>Vous n'avez pas encore de série préférée</p>
             END;
         }
 
@@ -48,11 +41,11 @@ class DisplayAlreadySeenAction extends Action
 
     public function getActionName(): string
     {
-        return "display-already-seen";
+        // TODO: Implement getActionName() method.
     }
 
     public function shouldBeAuthenticated(): bool
     {
-        return true;
+        // TODO: Implement shouldBeAuthenticated() method.
     }
 }
