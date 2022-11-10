@@ -12,7 +12,7 @@ class RegisterAction extends Action
     public function execute(): string
     {
         if ($this->http_method == "GET") {
-            $html = <<<END
+            return <<<END
             <form action="index.php?action=register" method="post">
                 <label for="first-name">Prénom</label>
                 <input type="text" name="first-name" id="first-name" required>
@@ -27,7 +27,6 @@ class RegisterAction extends Action
                 <input type="submit" value="S'inscrire">
             </form>
             END;
-            return $html;
         } else if ($this->http_method == "POST") {
             $firstName = $_POST['first-name'];
             $lastName = $_POST['last-name'];
@@ -37,7 +36,6 @@ class RegisterAction extends Action
             if ($password == $passwordRepeat) {
                 try {
                     $link = Auth::register($firstName, $lastName, $email, $password);
-                    mb_send_mail($email, "Confirmation de votre compte", "Veuillez cliquer sur ce lien pour confirmer votre compte : $link");
                     return "Inscription réussie ! Utilisez ce lien pour activer votre compte: <a href='$link'>Activer mon compte</a>";
                 } catch (RegisterException $e) {
                     return "Erreur lors de l'inscription : " . $e->getMessage();
