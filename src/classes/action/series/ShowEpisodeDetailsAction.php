@@ -20,7 +20,6 @@ class ShowEpisodeDetailsAction extends Action
         $user->addWatchedEpisode($episode);
         $renderEpisode = new EpisodeRenderer($episode);
         $html = $renderEpisode->render(Renderer::FULL);
-        $comments = $user->getComment($episode->serie_id);
 
         //Si le commentaire existe on l'affiche, sinon on affiche un formulaire
         if (isset($_GET['bookmark'])) {
