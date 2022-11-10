@@ -3,8 +3,9 @@
 namespace iutnc\netvod\action\account;
 
 use iutnc\netvod\action\Action;
+use iutnc\netvod\action\series\DisplayAlreadySeeAction;
+use iutnc\netvod\action\series\DisplayOngoingSeries;
 use iutnc\netvod\auth\Auth;
-use iutnc\netvod\renderer\OngoingSeriesRenderer;
 use iutnc\netvod\renderer\Renderer;
 use iutnc\netvod\renderer\SeriesRenderer;
 
@@ -26,21 +27,11 @@ class UserHomeAction extends Action
                 <h2>Qu'est ce qui vous ferait plaisir aujourd'hui ?</h2>
             </section>
             <main>
-                <div class="continue-watching">
-                    <h3>Continuer à regarder</h3>
-                    <div class="items">
             END;
 
-            $ongoingSeries = $user->getOngoingSeries();
-            foreach ($ongoingSeries as $series) {
-//                $renderer = new SeriesRenderer($series);
-                $renderer = new OngoingSeriesRenderer($series);
-                $html .= $renderer->render(Renderer::COMPACT);
-            }
-
+            $displayOnGoingSeries = new DisplayOnGoingSeries();
+            $html .= $displayOnGoingSeries->execute();
             $html .= <<<END
-                    </div>
-                </div>
                 <div class="bookmarked">
                     <h3>Revivre les meilleurs moments</h3>
                     <div class="items">
@@ -56,7 +47,12 @@ class UserHomeAction extends Action
                     </div>
                 </div>
             </main>
+
+               
             END;
+
+            $DisplayAlreadySeeAction = new DisplayAlreadySeeAction();
+            $html .= $DisplayAlreadySeeAction->execute();
 
 
             return $html;
