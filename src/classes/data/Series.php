@@ -162,11 +162,6 @@ class Series
         return $this->$name;
     }
 
-    public function getReviewsCount(): int
-    {
-        return count($this->getReviews());
-    }
-
     private function getEpisodeCount(): int
     {
         $born = $this->getBorneEp();
