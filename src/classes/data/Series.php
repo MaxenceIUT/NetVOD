@@ -28,6 +28,38 @@ class Series
     }
 
     /**
+     * @param string $filtre
+     * @return array
+     */
+    public static function getAllGenre(array $filtre): array
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $sql = "SELECT id FROM series";
+        if (isset($filtre['genre'])) {
+            $sql = "select series.id from series inner join genres g on series.genre_id = g.id where genre = ?";
+            $statement = $pdo->prepare($sql);
+            $statement->bindParam(1, $filtre['genre']);
+        }
+        if (isset($filtre['public'])) {
+            $sql = "select series.id from series inner join types_publics p on series.id = p.id where p.type_public = ?";
+            $statement = $pdo->prepare($sql);
+            $statement->bindParam(1, $filtre['public']);
+        }
+        $statement->execute();
+        $series = [];
+        while ($serie = $statement->fetch()) {
+            $series[] = Series::find($serie['id']);
+        }
+        return $series;
+    }
+
+    public static function getAllPublic(mixed $public)
+    {
+
+
+    }
+
+    /**
      * Method to find a serie by id (like a constructor with id)
      * @param int $id Serie id
      * @return Series Serie object
