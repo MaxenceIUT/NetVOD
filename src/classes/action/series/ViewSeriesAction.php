@@ -99,6 +99,8 @@ class ViewSeriesAction extends Action
                 $i = $_GET['i'];
             }
 
+            $html .= "<div class='items'>";
+
             $seriesList = Series::sortBy($tri, $i, $serieList);
             foreach ($seriesList as $series) {
                 $renderer = new SeriesRenderer($series);
