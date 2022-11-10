@@ -129,6 +129,11 @@ class User
         return $statement->fetchAll(PDO::FETCH_CLASS, Series::class);
     }
 
+    public function getAllSeries(): array
+    {
+        return Series::getAll();
+    }
+
     /**
      * @return array with param to use getSeries method to bookmarked series
      */
