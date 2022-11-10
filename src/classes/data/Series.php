@@ -28,8 +28,9 @@ class Series
     }
 
     /**
-     * @param string $filtre
-     * @return array
+     * Method to return all serie of a user with some filtre
+     * @param string $filtre Filtre to apply
+     * @return array Array of Series
      */
     public static function getAllGenre(array $filtre): array
     {
