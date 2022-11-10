@@ -12,6 +12,10 @@ class Series
     protected string $titre, $descriptif, $date_ajout, $annee;
     protected string $image = "";
 
+    /**
+     * Method to find all series of the database
+     * @return array Array of Series
+     */
     public static function getAll(): array
     {
         $pdo = ConnectionFactory::getConnection();
@@ -23,6 +27,11 @@ class Series
         return $series;
     }
 
+    /**
+     * Method to find a serie by id (like a constructor with id)
+     * @param int $id Serie id
+     * @return Series Serie object
+     */
     public static function find(int $id): Series
     {
         $pdo = ConnectionFactory::getConnection();
@@ -34,11 +43,12 @@ class Series
         return $statement->fetchObject(Series::class);
     }
 
-    public function __get($name)
-    {
-        return $this->$name;
-    }
 
+    /**
+     * Method to return if a user bookmarked a serie
+     * @param User $user User object
+     * @return bool True if bookmarked, false otherwise
+     */
     public function isBookmarkedBy(User $user): bool
     {
         $pdo = ConnectionFactory::getConnection();
@@ -70,6 +80,10 @@ class Series
         return $result['score'] ?? -1;
     }
 
+    /**
+     * Method to get the reviews of the serie
+     * @return array Array of Review
+     */
     public function getReviews(): array
     {
         $pdo = ConnectionFactory::getConnection();
@@ -78,6 +92,11 @@ class Series
         $statement->bindParam(1, $this->id);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_CLASS, Review::class);
+    }
+
+    public function __get($name)
+    {
+        return $this->$name;
     }
 
 }

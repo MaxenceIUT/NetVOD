@@ -9,6 +9,14 @@ class Review
     protected string $email, $comment;
     protected int $id, $score;
 
+    /**
+     * Method to create a serie review (like a constructor)
+     * @param string $email User email
+     * @param int $id Serie id
+     * @param int $note Score
+     * @param string $comment Comment
+     * @return Review Review object
+     */
     public static function create(string $email, int $id, int $note, string $comment): Review
     {
         $review = new Review();
@@ -19,7 +27,10 @@ class Review
         return $review;
     }
 
-    public function addBase(): bool
+    /**
+     * Method to add a review in the database
+     */
+    public function addBase()
     {
         $pdo = ConnectionFactory::getConnection();
         $query = "insert into series_reviews (email, id, comment, score) values (?, ?, ?, ?)";
@@ -29,7 +40,6 @@ class Review
         $statement->bindParam(3, $this->comment);
         $statement->bindParam(4, $this->score);
         $statement->execute();
-        return true;
     }
 
     public function __get(string $name)
