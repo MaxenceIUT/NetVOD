@@ -31,6 +31,10 @@ form input {
     color: var(--text-primary-color);
 }
 
+form input:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 form input::placeholder {
     color: var(--text-subtitle-color);
 }
