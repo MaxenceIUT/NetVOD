@@ -31,7 +31,6 @@ class RegisterAction extends Action
         END;
     }
 
-
     public function execute(): string
     {
         if ($this->http_method == "GET") {

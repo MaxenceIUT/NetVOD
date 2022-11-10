@@ -5,7 +5,6 @@ namespace iutnc\netvod\action\api;
 use iutnc\netvod\action\Action;
 use iutnc\netvod\auth\Auth;
 use iutnc\netvod\data\Episode;
-use iutnc\netvod\db\ConnectionFactory;
 
 class AlreadyComment extends Action
 {

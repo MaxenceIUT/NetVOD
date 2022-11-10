@@ -46,6 +46,18 @@ class Dispatcher
         );
     }
 
+    private function registerActions(Action...$action): void
+    {
+        foreach ($action as $a) {
+            $this->registerAction($a);
+        }
+    }
+
+    private function registerAction(Action $action): void
+    {
+        $this->actions[$action->getActionName()] = $action;
+    }
+
     public function run(): void
     {
         if ($this->action == null) {
@@ -95,18 +107,6 @@ class Dispatcher
         END;
 
         echo $htmlString;
-    }
-
-    private function registerAction(Action $action): void
-    {
-        $this->actions[$action->getActionName()] = $action;
-    }
-
-    private function registerActions(Action...$action): void
-    {
-        foreach ($action as $a) {
-            $this->registerAction($a);
-        }
     }
 
 }

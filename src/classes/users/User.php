@@ -52,18 +52,6 @@ class User
         }
     }
 
-    public function save(): bool
-    {
-        $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, favorite_genre = :favorite_genre, activated = :activated WHERE email = :email");
-        $statement->bindParam(":first_name", $this->first_name);
-        $statement->bindParam(":last_name", $this->last_name);
-        $statement->bindParam(":favorite_genre", $this->favorite_genre);
-        $statement->bindParam(":activated", $this->activated);
-        $statement->bindParam(":email", $this->email);
-        return $statement->execute();
-    }
-
     /**
      * Method to add an episode to the watched list of the user
      * @param Episode $episode Episode to add in watched db
@@ -95,6 +83,16 @@ class User
     }
 
     /**
+     * Method to refactor getSeries
+     * @return array with param to use getSeries method to ongoing series
+     */
+    public function getOngoingSeries(): array
+    {
+        $table = "watched_episodes inner join episode e on watched_episodes.id = e.id";
+        return $this->getSeries($table, "serie_id");
+    }
+
+    /**
      * Method to refactor getSeries to bookmarked series and ongoing series
      * @param string $table table to get the series from (with joiture if needed)
      * @param string $select select episod or serie id
@@ -110,16 +108,6 @@ class User
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_CLASS, Series::class);
-    }
-
-    /**
-     * Method to refactor getSeries
-     * @return array with param to use getSeries method to ongoing series
-     */
-    public function getOngoingSeries(): array
-    {
-        $table = "watched_episodes inner join episode e on watched_episodes.id = e.id";
-        return $this->getSeries($table, "serie_id");
     }
 
     /**
@@ -192,6 +180,18 @@ class User
         }
 
         return false;
+    }
+
+    public function save(): bool
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $statement = $pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, favorite_genre = :favorite_genre, activated = :activated WHERE email = :email");
+        $statement->bindParam(":first_name", $this->first_name);
+        $statement->bindParam(":last_name", $this->last_name);
+        $statement->bindParam(":favorite_genre", $this->favorite_genre);
+        $statement->bindParam(":activated", $this->activated);
+        $statement->bindParam(":email", $this->email);
+        return $statement->execute();
     }
 
 }
