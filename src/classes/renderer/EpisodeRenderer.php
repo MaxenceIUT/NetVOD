@@ -2,6 +2,7 @@
 
 namespace iutnc\netvod\renderer;
 
+use iutnc\netvod\auth\Auth;
 use iutnc\netvod\data\Episode;
 
 class EpisodeRenderer implements Renderer
@@ -16,12 +17,23 @@ class EpisodeRenderer implements Renderer
     public function render(int $mode): string
     {
         $html = "";
+        //Resum of the episode
         if ($mode == self::COMPACT) {
             $nom = "Épisode " . $this->episode->numero . ": " . $this->episode->titre;
-            $html .= <<<END
-                <li><a href="index.php?action=show-episode-details&id={$this->episode->id}">$nom</a>{$this->episode->duree} minutes</li>
-                END;
+            $user = Auth::getCurrentUser();
+            if ($user != null) {
+                $nomEp = "$nom</a>{$this->episode->duree} minutes";
+                if (!$this->episode->isBookmarkedBy($user)) {
+                    $html .= "<li><a href='index.php?action=show-episode-details&id={$this->episode->id}&bookmark=false'>$nomEp</a></li>";
+                } else {
+                    $html .= "<li><a href='index.php?action=show-episode-details&id={$this->episode->id}&bookmark=true'>$nomEp</a></li>";
+                }
+            }
+
+            //Full details of the episode with the video
         } else {
+
+
             $html .= <<<END
             <h3>{$this->episode->titre}</h3>
             <p>{$this->episode->resume}</p>

@@ -3,6 +3,7 @@
 namespace iutnc\netvod\data;
 
 use iutnc\netvod\db\ConnectionFactory;
+use iutnc\netvod\users\User;
 
 class Episode
 {
@@ -46,6 +47,15 @@ class Episode
             <source src="assets/video/$this->file" type="video/mp4">
         </video>
         END;
+    }
+
+    /**
+     * @param User $user  the user to check
+     * @return bool true if the user already comment this episode, false otherwise
+     */
+    public function isBookmarkedBy(User $user): bool{
+        $comments = $user->getComment($this->serie_id);
+        return ($comments != null) ? true : false;
     }
 
     public function __get($name)
