@@ -2,6 +2,12 @@ h1 {
     padding-bottom: 50px;
 }
 
+.reviews {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
 .review {
     width: 400px;
     min-height: 200px;
@@ -29,7 +35,7 @@ h1 {
     font-size: 3rem;
     font-weight: 700;
     margin: 0;
-    width: 20%;
+    min-width: 100px;
 }
 
 .review .comment h4 span {
@@ -41,5 +47,5 @@ h1 {
 .review .comment p {
     font-size: 1.1rem;
     color: var(--text-subtitle-color);
-    width: 80%;
+    width: 100%;
 }

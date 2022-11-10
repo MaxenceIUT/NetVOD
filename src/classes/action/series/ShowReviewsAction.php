@@ -15,7 +15,10 @@ class ShowReviewsAction extends Action
         $id = $_GET['id'];
         $series = Series::find($id);
 
-        $html = "<h1>Reviews de la série: " . $series->titre . "</h1>";
+        $html = <<<END
+        <h1>Reviews de la série $series->titre</h1>
+        <div class="reviews">
+        END;
 
         $reviews = $series->getReviews();
 
@@ -23,6 +26,10 @@ class ShowReviewsAction extends Action
             $renderer = new ReviewRenderer($review);
             $html .= $renderer->render(Renderer::FULL);
         }
+
+        $html .= <<<END
+        </div>
+        END;
 
         return $html;
     }
