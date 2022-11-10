@@ -4,6 +4,7 @@ namespace iutnc\netvod\renderer;
 
 use iutnc\netvod\auth\Auth;
 use iutnc\netvod\data\Episode;
+use iutnc\netvod\data\Series;
 
 class EpisodeRenderer implements Renderer
 {
@@ -17,30 +18,44 @@ class EpisodeRenderer implements Renderer
     public function render(int $mode): string
     {
         $html = "";
-        //Resum of the episode
         if ($mode == self::COMPACT) {
-            $nom = "Épisode " . $this->episode->numero . ": " . $this->episode->titre;
             $user = Auth::getCurrentUser();
+
+            $nom = "Ep. {$this->episode->numero} • {$this->episode->titre}";
+
             if ($user != null) {
-                $nomEp = "$nom</a>{$this->episode->duree} minutes";
-                if (!$this->episode->isBookmarkedBy($user)) {
-                    $html .= "<li><a href='index.php?action=show-episode-details&id={$this->episode->id}&bookmark=false'>$nomEp</a></li>";
-                } else {
-                    $html .= "<li><a href='index.php?action=show-episode-details&id={$this->episode->id}&bookmark=true'>$nomEp</a></li>";
-                }
+                $html .= <<<END
+                <li>
+                    <a class="card" href='index.php?action=show-episode-details&id={$this->episode->id}'>
+                        <h4>$nom ({$this->episode->duree} min)</h4>
+                        <p>{$this->episode->resume}</p>
+                    </a>
+                </li>
+                END;
             }
-
-            //Full details of the episode with the video
         } else {
-
+            $series = Series::find($this->episode->serie_id);
+            $renderer = new SeriesRenderer($series);
+            $seriesRender = $renderer->render(self::COMPACT);
 
             $html .= <<<END
-            <h3>{$this->episode->titre}</h3>
-            <p>{$this->episode->resume}</p>
-            <p>Durée: {$this->episode->duree}</p>
-            <video width="854" height="480" controls autoplay>
-                <source src="assets/video/{$this->episode->file}" type="video/mp4">
-            </video>
+            <div class="episode-player">
+                <div class="infos">
+                    <img class="background" src="assets/img/series/{$series->img}" alt="{$series->titre}">
+                    <div class="series-infos">
+                        <h1>Vous regardez la série {$series->titre}</h1>
+                        $seriesRender
+                    </div>
+                    <div class="episode-infos">
+                        <h3>Ep. {$this->episode->numero} • {$this->episode->titre}</h3>
+                        <p>{$this->episode->resume}</p>
+                        <span>{$this->episode->duree} minutes</span>
+                    </div>
+                </div>
+                <video width="854" height="480" controls autoplay>
+                    <source src="assets/video/{$this->episode->file}" type="video/mp4">
+                </video>
+            </div>
             END;
         }
         return $html;

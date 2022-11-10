@@ -60,7 +60,7 @@ class SeriesRenderer implements Renderer
 
             $html .= <<<END
                 <div class="episodes">
-                    <p>$episodeCount épisodes</p>
+                    <h5>$episodeCount épisodes</h5>
                     <ul>
             END;
 
@@ -78,7 +78,7 @@ class SeriesRenderer implements Renderer
             return $html;
         } else {
             return <<<END
-            <a class="series" href="index.php?action=show-series-details&id={$this->series->id}">
+            <a class="card" href="index.php?action=show-series-details&id={$this->series->id}">
                 <h4>{$this->series->titre}</h4>
                 <p>{$this->series->descriptif}</p>
                 <img src="assets/img/series/{$this->series->img}" alt="Image de la série {$this->series->titre}">

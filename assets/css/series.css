@@ -10,17 +10,10 @@
 }
 
 .series.series__full .background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    top: 0;
-    left: 0;
     opacity: .2;
 }
 
-.series.series__full p {
+.series.series__full > p {
     max-width: 400px;
     margin-bottom: 40px;
     font-size: 1.1rem;
@@ -66,4 +59,22 @@
 
 .series.series__full .reviews a {
     outline: 1px solid var(--text-subtitle-color);
+}
+
+.series.series__full .episodes {
+    margin-top: 50px;
+}
+
+.series.series__full .episodes h5 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.series.series__full .episodes ul {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    list-style: none;
 }

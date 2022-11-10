@@ -39,7 +39,7 @@ class OngoingSeriesRenderer implements Renderer
         }
 
         return <<<END
-            <a class="series" href="$link">
+            <a class="card" href="$link">
                 <h4>{$this->series->titre}</h4>
                 <p>{$this->series->descriptif}</p>
                 <img src="assets/img/series/{$this->series->img}" alt="Image de la série {$this->series->titre}">

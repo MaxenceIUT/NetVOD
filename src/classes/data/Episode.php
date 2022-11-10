@@ -47,18 +47,6 @@ class Episode
         return $statement->fetchObject(Episode::class);
     }
 
-//    public function toHTML(): string
-//    {
-//        return <<<END
-//        <h3>$this->titre</h3>
-//        <p>$this->resume</p>
-//        <p>Durée: $this->duree</p>
-//        <video width="854" height="480" controls autoplay>
-//            <source src="assets/video/$this->file" type="video/mp4">
-//        </video>
-//        END;
-//    }
-
     /**
      * @param User $user the user to check
      * @return bool true if the user already comment this episode, false otherwise
