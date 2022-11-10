@@ -9,22 +9,29 @@ use iutnc\netvod\exceptions\LoginException;
 class LoginAction extends Action
 {
 
+    private string $loginForm;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->loginForm = <<<END
+        <form action="index.php?action=login" method="post">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" required minlength="8" maxlength="128">
+            <input type="submit" value="Se connecter">
+        </form>
+        END;
+    }
+
     public function execute(): string
     {
         if ($this->http_method == "GET") {
             if (Auth::getCurrentUser() != null) {
                 header('Location: index.php?action=home');
             } else {
-                $html = <<<END
-                <form action="index.php?action=login" method="post">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required>
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password" required minlength="8" maxlength="128">
-                    <input type="submit" value="Se connecter">
-                </form>
-                END;
-                return $html;
+                return $this->loginForm;
             }
         } else if ($this->http_method == "POST") {
             $email = $_POST['email'];
@@ -34,11 +41,14 @@ class LoginAction extends Action
                 header("Location: index.php?action=home");
                 return "Connexion réussie";
             } catch (LoginException $e) {
-                $html = <<<END
-                Une erreur est survenue lors de la connexion, veuillez réessayer.<br>
+                $errorMessage = $e->getMessage();
+                return <<<END
+                <div class="error">
+                    Une erreur est survenue lors de la connexion, veuillez réessayer.<br>                
+                    $errorMessage
+                </div>
+                $this->loginForm
                 END;
-                $html .= $e->getMessage();
-                return $html;
             }
         } else {
             return "Méthode non autorisée";

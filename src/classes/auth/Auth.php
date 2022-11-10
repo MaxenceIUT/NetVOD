@@ -48,11 +48,14 @@ class Auth
      * @param $lastName string The user last name
      * @param $email string The user email
      * @param $password string The user password
+     * @param $repeatPassword string The user password repeated
      * @return string The activation link
      * @throws RegisterException If an exception occurs during the registration
      */
-    public static function register($firstName, $lastName, $email, $password): string
+    public static function register($firstName, $lastName, $email, $password, $repeatPassword): string
     {
+        if ($password != $repeatPassword) throw new RegisterException("Les mots de passe ne correspondent pas");
+
         $pdo = ConnectionFactory::getConnection();
 
         // Filtering user input
