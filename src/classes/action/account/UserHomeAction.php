@@ -3,7 +3,7 @@
 namespace iutnc\netvod\action\account;
 
 use iutnc\netvod\action\Action;
-use iutnc\netvod\action\series\DisplayAlreadySeeAction;
+use iutnc\netvod\action\series\DisplayAlreadySeenAction;
 use iutnc\netvod\action\series\DisplayOngoingSeries;
 use iutnc\netvod\auth\Auth;
 use iutnc\netvod\renderer\Renderer;
@@ -24,9 +24,6 @@ class UserHomeAction extends Action
                 <h2>Qu'est ce qui vous ferait plaisir aujourd'hui ?</h2>
             </section>
             <main>
-                <div class="continue-watching">
-                    <h3>Continuer à regarder</h3>
-                    <div class="items">
             END;
 
             $displayOnGoingSeries = new DisplayOnGoingSeries();
@@ -51,7 +48,7 @@ class UserHomeAction extends Action
             </main>
             END;
 
-            $DisplayAlreadySeeAction = new DisplayAlreadySeeAction();
+            $DisplayAlreadySeeAction = new DisplayAlreadySeenAction();
             $html .= $DisplayAlreadySeeAction->execute();
 
             return $html;

@@ -15,22 +15,24 @@ class DisplayOngoingSeries extends Action
         $user = Auth::getCurrentUser();
         $html = <<<END
         <div class="continue-watching">
-                    <h3>Continuer à regarder</h3>
-                    <div class="items">
+            <h3>Continuer à regarder</h3>
+            <div class="items">
         END;
 
         $ongoingSeries = $user->getOngoingSeries();
+
         foreach ($ongoingSeries as $series) {
-            if (!$series->isAlreadySee($user)) {
+            if (!$series->isAlreadySeenBy($user)) {
                 $renderer = new OngoingSeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
             }
         }
 
         $html .= <<<END
-                    </div>
-                </div>
-                END;
+            </div>
+        </div>
+        END;
+
         return $html;
     }
 

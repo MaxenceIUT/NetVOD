@@ -8,7 +8,7 @@ use iutnc\netvod\data\Series;
 use iutnc\netvod\renderer\Renderer;
 use iutnc\netvod\renderer\SeriesRenderer;
 
-class DisplayAlreadySeeAction extends Action
+class DisplayAlreadySeenAction extends Action
 {
 
     public function execute(): string
@@ -17,13 +17,13 @@ class DisplayAlreadySeeAction extends Action
 
         $html = <<<END
             <main>
-                <div class="AlreadySee">
-                    <h3>Serie déjà regardé</h3>
+                <div class="already-seen">
+                    <h3>Série(s) déjà regardée(s)</h3>
                     <div class="items">
             END;
 
-        $SerieList = Series::getAll();
-        foreach ($SerieList as $series) {
+        $seriesList = Series::getAll();
+        foreach ($seriesList as $series) {
             if ($series->isAlreadySeenBy($user)) {
                 $renderer = new SeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
@@ -38,7 +38,7 @@ class DisplayAlreadySeeAction extends Action
 
     public function getActionName(): string
     {
-        return "display-already-see";
+        return "display-already-seen";
     }
 
     public function shouldBeAuthenticated(): bool
