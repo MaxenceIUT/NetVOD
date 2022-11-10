@@ -16,7 +16,7 @@ class ViewSeriesAction extends Action
     {
         $html = "";
         if ($this->http_method == "GET") {
-            $sort = $_GET['sort'] ?? null;
+            $sort = $_GET['sort'] ?? "titre";
             $i = $_GET['i'] ?? null;
             $sorts = ["title", "date", "episodes", "note"];
             $text = ["Titre", "Date d'ajout", "Nombre d'épisodes", "Note"];
@@ -39,10 +39,6 @@ class ViewSeriesAction extends Action
 
             $html .= <<<END
                     </select> 
-                    <input type="submit" value="Rechercher">  
-                </form>
-
-                <form action="index.php?action=view-series" method="post">
                     <label for='select-public'>Public</label>
                     <select name="public">
                         <option value="all">Tous public</option>
@@ -55,11 +51,7 @@ class ViewSeriesAction extends Action
 
             $html .= <<<END
                     </select> 
-                    <input type="submit" value="Rechercher">  
-                </form>
-                <div class="items">
 
-            <form action="index.php?action=view-series" method="post">
             <label for='select-sort'>Trier par</label>
             END;
 
@@ -87,16 +79,13 @@ class ViewSeriesAction extends Action
                     </form>
                     END;
             }
-            $seeGenre = "";
             $param = [];
             if (isset($_GET['genre'])) {
                 $genre = $_GET['genre'];
-                $seeGenre = " avec comme genre $genre";
                 $param = ["genre" => $genre];
             }
             if (isset($_GET['public'])) {
                 $public = $_GET['public'];
-                $seeGenre = " avec comme public $public";
                 $param = ["public" => $public];
             }
 
@@ -133,8 +122,10 @@ class ViewSeriesAction extends Action
                 $sort = $_POST['sort'];
                 $header .= "&sort=$sort";
                 $i = "false";
-                if ($_POST['i'] == "on") {
-                    $i = "true";
+                if (isset($_POST['i'])) {
+                    if ($_POST['i'] == "on") {
+                        $i = "true";
+                    }
                 }
                 $header .= "&i=$i";
             }
