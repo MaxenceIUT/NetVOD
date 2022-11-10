@@ -66,12 +66,10 @@ class OngoingSeriesRenderer implements Renderer
         $nbEp = count($this->series->getAll());
 
         $borne = $this->idMinMaxEpisode();
-        echo "{$this->series->titre} borne inf" . $borne['min'] . " Borne sup " . $borne['max'] . "<br>";
         for ($i = $borne['min']; $i <= $borne['max']; $i++) {
             $stmt->bindParam(3, $i);
             $stmt->execute();
             if ($stmt->rowCount() == 0) {
-//                return ($i > $borne['max']) ? 0 : $i + 1;
                 return $i;
             }
         }

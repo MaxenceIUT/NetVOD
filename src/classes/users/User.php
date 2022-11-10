@@ -73,11 +73,11 @@ class User
         $statement->execute();
     }
 
-    private function getSeries(string $table): array
+    private function getSeries(string $table, string $select): array
     {
         $pdo = ConnectionFactory::getConnection();
 
-        $query = "select * from series where id IN (select id from " . $table . " where email = ?)";
+        $query = "select * from series where id IN (select " . $select . " from " . $table . " where email = ?)";
         $statement = $pdo->prepare($query);
         $statement->bindParam(1, $this->email);
         $statement->execute();
@@ -87,12 +87,13 @@ class User
 
     public function getOngoingSeries(): array
     {
-        return $this->getSeries("watched_episodes");
+        $table = "watched_episodes inner join episode e on watched_episodes.id = e.id";
+        return $this->getSeries($table, "serie_id");
     }
 
     public function getBookmarkedSeries(): array
     {
-        return $this->getSeries("bookmarked_series");
+        return $this->getSeries("bookmarked_series", "id");
     }
 
     public function getComment(int $id): ?Review
