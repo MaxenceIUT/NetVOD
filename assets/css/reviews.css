@@ -29,6 +29,7 @@ h1 {
     gap: 5px;
     height: 100%;
     flex: 1;
+    flex-direction: row;
 }
 
 .review .comment h4 {
