@@ -113,8 +113,8 @@ class User
 
     /**
      * Method to refactor getSeries to bookmarked series and ongoing series
-     * @param string $table table to get the series from (with joiture if needed)
-     * @param string $select select episod or serie id
+     * @param string $table table to get the series from (with jointures if needed)
+     * @param string $select select episode or series id
      * @return array of Series
      */
     private function getSeries(string $table, string $select): array
