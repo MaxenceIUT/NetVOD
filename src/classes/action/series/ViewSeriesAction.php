@@ -27,10 +27,6 @@ class ViewSeriesAction extends Action
                     <option value="Drama historique">Drama historique</option>
                     <option value="Film d'horreur">Film d'horreur</option>
                 </select> 
-                <input type="submit" value="Rechercher">  
-            </form>
-
-                <form action="index.php?action=view-series" method="post">
                 <label for='select-public'>Public</label>
                 <select name="public">
                     <option value="all">Tous public</option>
