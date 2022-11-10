@@ -47,7 +47,11 @@ class User
         return $statement->execute();
     }
 
-
+    /**
+     * Method to add a episode to the watched list of the user
+     * @param Episode $episode Episode to add in watched db
+     * @return void
+     */
     public function addWatchedEpisode(Episode $episode): void
     {
         $pdo = ConnectionFactory::getConnection();
@@ -73,6 +77,12 @@ class User
         $statement->execute();
     }
 
+    /**
+     * Method to refractor getSeries to bookmarked series and ongoing series
+     * @param string $table table to get the series from (with joiture if needed)
+     * @param string $select select episod or serie id
+     * @return array of Series
+     */
     private function getSeries(string $table, string $select): array
     {
         $pdo = ConnectionFactory::getConnection();
@@ -85,17 +95,29 @@ class User
         return $statement->fetchAll(PDO::FETCH_CLASS, Series::class);
     }
 
+    /**
+     * Method to refractor getSerie
+     * @return array with param to use getSeries method to ongoing series
+     */
     public function getOngoingSeries(): array
     {
         $table = "watched_episodes inner join episode e on watched_episodes.id = e.id";
         return $this->getSeries($table, "serie_id");
     }
 
+    /**
+     * @return array with param to use getSeries method to bookmarked series
+     */
     public function getBookmarkedSeries(): array
     {
         return $this->getSeries("bookmarked_series", "id");
     }
 
+    /**
+     * Method to return the comment of the user for a serie
+     * @param int $id id of the serie
+     * @return Review|null if he commented the serie, return the review, else return null
+     */
     public function getComment(int $id): ?Review
     {
         $pdo = ConnectionFactory::getConnection();
