@@ -182,6 +182,12 @@ class User
         if ($statement->rowCount() > 0) {
             $this->activated = true;
             $this->save();
+
+            $query = "delete from activation_tokens where email = :email";
+            $statement = $pdo->prepare($query);
+            $statement->bindParam(':email', $this->email);
+            $statement->execute();
+
             return true;
         }
 
