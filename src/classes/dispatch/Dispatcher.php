@@ -14,6 +14,7 @@ use iutnc\netvod\action\Action;
 use iutnc\netvod\action\api\AddFavoriteSerieAction;
 use iutnc\netvod\action\api\RemoveFavoriteSerieAction;
 use iutnc\netvod\action\LandingPageAction;
+use iutnc\netvod\action\series\DisplayAlreadySeeAction;
 use iutnc\netvod\action\series\DisplayFavoritesSeriesAction;
 use iutnc\netvod\action\series\ShowEpisodeDetailsAction;
 use iutnc\netvod\action\series\ShowReviewsAction;
@@ -48,7 +49,8 @@ class Dispatcher
             new PasswordForget(),
             new ResetPassword(),
             new ShowReviewsAction(),
-            new ActivateAccountAction()
+            new ActivateAccountAction(),
+            new DisplayAlreadySeeAction()
         );
     }
 

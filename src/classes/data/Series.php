@@ -94,6 +94,21 @@ class Series
         return $statement->fetchAll(PDO::FETCH_CLASS, Review::class);
     }
 
+
+    public function isAlreadySee(User $user): bool
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $sql = "select count(*) from watched_episodes where email = ? and id in (select id from episode where serie_id = ?)";
+        $statement = $pdo->prepare($sql);
+        $email = $user->email;
+        $statement->bindParam(1, $email);
+        $statement->bindParam(2, $this->id);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return $result[0] == $this->getEpisodeCount();
+    }
+
     /**
      * Get the id of the first and the last episode of the serie
      * @return array the id of the first and the last episode
@@ -103,7 +118,7 @@ class Series
         $pdo = ConnectionFactory::getConnection();
         $sql = "select min(id), max(id) from episode where serie_id = ?";
         $stmt = $pdo->prepare($sql);
-        $idSerie = $this->series->id;
+        $idSerie = $this->id;
         $stmt->bindParam(1, $idSerie);
         $stmt->execute();
         $result = $stmt->fetch();
@@ -113,6 +128,12 @@ class Series
     public function __get($name)
     {
         return $this->$name;
+    }
+
+    private function getEpisodeCount(): int
+    {
+        $born = $this->getBorneEp();
+        return $born['max'] - $born['min'] + 1;
     }
 
 }
