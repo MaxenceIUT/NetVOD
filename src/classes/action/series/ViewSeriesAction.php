@@ -14,44 +14,83 @@ class ViewSeriesAction extends Action
 
     public function execute(): string
     {
-        $html = <<<END
+        $html = "";
+        if ($this->http_method == "GET") {
+            $sort = $_GET['sort'] ?? null;
+            $i = $_GET['i'] ?? null;
+            $sorts = ["title", "date", "episodes", "note"];
+            $text = ["Titre", "Date d'ajout", "Nombre d'épisodes", "Note"];
+            $genres = $this->getAvailableGenres();
+            $public = $this->getAvailablePublics();
+            $html = <<<END
             <h1>Catalogue des séries<br></h1>
             <div class="items">
         END;
-        if ($this->http_method == "GET") {
-
-            $genres = $this->getAvailableGenres();
-            $public = $this->getAvailablePublics();
-
-            $html .= <<<END
+            if ($this->http_method == "GET") {
+                $html .= <<<END
                 <form action="index.php?action=view-series" method="post">
                 <label for='select-genre'>Genre</label>
                 <select name="genre">
                     <option value="all">Tous les genres</option>
                 END;
 
-            foreach ($genres as $genre) {
-                $nomGenre = $genre['genre'];
-                $html .= "<option value='$nomGenre'>$nomGenre</option>";
-            }
+                foreach ($genres as $genre) {
+                    $nomGenre = $genre['genre'];
+                    $html .= "<option value='$nomGenre'>$nomGenre</option>";
+                }
 
-            $html .= <<<END
+                $html .= <<<END
                 </select> 
+                <input type="submit" value="Rechercher">  
+                    </form>
+
+                <form action="index.php?action=view-series" method="post">
                 <label for='select-public'>Public</label>
                 <select name="public">
                     <option value="all">Tous public</option>
                 END;
 
-            foreach ($public as $pub) {
-                $nomPublic = $pub['type_public'];
-                $html .= "<option value='$nomPublic'>$nomPublic</option>";
-            }
+                foreach ($public as $pub) {
+                    $nomPublic = $pub['type_public'];
+                    $html .= "<option value='$nomPublic'>$nomPublic</option>";
+                }
 
-            $html .= <<<END
+                $html .= <<<END
                 </select> 
                 <input type="submit" value="Rechercher">  
             </form>
+
+            <form action="index.php?action=view-series" method="post">
+            <label for='select-sort'>Trier par</label>
+
             END;
+                $html .= "<select name='sort'>";
+                for ($i = 0; $i < count($sorts); $i++) {
+                    if ($sorts[$i] == $sort) {
+                        $html .= "<option value='$sorts[$i]'>$text[$i]</option>";
+                    } else {
+                        $html .= "<option value='$sorts[$i]'>$text[$i]</option>";
+                    }
+                    $html .= "</select>";
+                }
+
+                if ($i == 'true') {
+                    $html .= <<<END
+                        <label for="i">Inverser l'ordre</label>
+                    <input type="checkbox" name="i" id="i" checked>
+                    <input type="submit" value="Trier">
+
+                    END;
+                } else {
+                    $html .= <<<END
+                        <label for="i">Inverser l'ordre</label>
+                       <input type = "checkbox" name = "i" id = "i" >
+                    <input type = "submit" value = "Trier" >
+                    </div ></div >
+                    END;
+                }
+            }
+            $html .= "</form >";
 
             $seeGenre = "";
             $param = [];
@@ -65,9 +104,17 @@ class ViewSeriesAction extends Action
                 $seeGenre = " avec comme public $public";
                 $param = ["public" => $public];
             }
+            $tri = "title";
+            $i = "false";
+            if (isset($_GET['sort'])) {
+                $tri = $_GET['sort'];
+            }
+            if (isset($_GET['i'])) {
+                $i = $_GET['i'];
+            }
             $seriesList = Series::getAllGenre($param);
-
             $html .= "<h3>Series disponible(s) sur le catalogue$seeGenre: <br></h3>";
+            $seriesList = Series::sortBy($tri, $i);
             foreach ($seriesList as $series) {
                 $renderer = new SeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
@@ -86,11 +133,19 @@ class ViewSeriesAction extends Action
                     $header .= "&public=$public";
                 }
             }
+            $sort = $_POST['sort'];
+            $header .= "&sort=$sort";
+            $i = "false";
+            if ($_POST['i'] == "on") {
+                $i = "true";
+            }
+            $header .= "&i=$i";
             header($header);
-        }
 
-        $html .= "</div>";
+            $html .= "</div>";
+        }
         return $html;
+
     }
 
     public function getAvailableGenres(): array
