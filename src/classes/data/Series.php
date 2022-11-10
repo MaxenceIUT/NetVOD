@@ -65,6 +65,42 @@ class Series
     }
 
 
+    public function countEpisodes(): int
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $statement = $pdo->prepare("SELECT COUNT(*) FROM episode WHERE serie_id = ?");
+        $statement->execute([$this->id]);
+        return $statement->fetchColumn();
+    }
+
+    public static function sortBy(?string $sort, ?string $i): array
+    {
+        $series = Series::getAll();
+        if ($sort == "title") {
+            usort($series, function ($a, $b) {
+                return $a->titre <=> $b->titre;
+            });
+        }
+        if ($sort == "date") {
+            usort($series, function ($a, $b) {
+                return $a->date_ajout <=> $b->date_ajout;
+            });
+
+        } else if ($sort == "episodes") {
+            usort($series, function ($a, $b) {
+                return $a->countEpisodes() <=> $b->countEpisodes();
+            });
+        } else if ($sort == "note") {
+            usort($series, function ($a, $b) {
+                return $a->getScore() <=> $b->getScore();
+            });
+        }
+        if ($i == "true") {
+            $series = array_reverse($series);
+        }
+        return $series;
+    }
+
     /**
      * Method to find a serie by id (like a constructor with id)
      * @param int $id Serie id
