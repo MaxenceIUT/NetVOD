@@ -13,21 +13,6 @@ class Series
     protected string $img = "";
 
     /**
-     * Method to find all series of the database
-     * @return array Array of Series
-     */
-    public static function getAll(): array
-    {
-        $pdo = ConnectionFactory::getConnection();
-        $statement = $pdo->query("SELECT id FROM series");
-        $series = [];
-        while ($serie = $statement->fetch()) {
-            $series[] = Series::find($serie['id']);
-        }
-        return $series;
-    }
-
-    /**
      * Method to return all serie of a user with some filtre
      * @param string $filtre Filtre to apply
      * @return array Array of Series
@@ -66,13 +51,34 @@ class Series
     }
 
     /**
-     * Method to return the number of episode of a serie
-     * @return int Number of episode
+     * Method to find all series of the database
+     * @return array Array of Series
      */
-    public function countEpisodes(): int
+    public static function getAll(): array
     {
-        $born = $this->getBorneEp();
-        return $born['max'] - $born['min'] + 1;
+        $pdo = ConnectionFactory::getConnection();
+        $statement = $pdo->query("SELECT id FROM series");
+        $series = [];
+        while ($serie = $statement->fetch()) {
+            $series[] = Series::find($serie['id']);
+        }
+        return $series;
+    }
+
+    /**
+     * Method to find a serie by id (like a constructor with id)
+     * @param int $id Serie id
+     * @return Series Serie object
+     */
+    public static function find(int $id): Series
+    {
+        $pdo = ConnectionFactory::getConnection();
+
+        $query = "SELECT * FROM series WHERE id = :id";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        return $statement->fetchObject(Series::class);
     }
 
     public static function sortBy(?string $sort, ?string $i): array
@@ -104,21 +110,29 @@ class Series
     }
 
     /**
-     * Method to find a serie by id (like a constructor with id)
-     * @param int $id Serie id
-     * @return Series Serie object
+     * Method to return the number of episode of a serie
+     * @return int Number of episode
      */
-    public static function find(int $id): Series
+    public function countEpisodes(): int
     {
-        $pdo = ConnectionFactory::getConnection();
-
-        $query = "SELECT * FROM series WHERE id = :id";
-        $statement = $pdo->prepare($query);
-        $statement->bindParam(":id", $id);
-        $statement->execute();
-        return $statement->fetchObject(Series::class);
+        $born = $this->getBorneEp();
+        return $born['max'] - $born['min'] + 1;
     }
 
+    /**
+     * @return int the score of the series, or -1 if no user has reviewed it
+     */
+    public function getScore(): int
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select avg(score) as score from series_reviews where id = ?";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $this->id);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        return $result['score'] ?? -1;
+    }
 
     /**
      * Method to return if a user bookmarked a serie
@@ -139,21 +153,6 @@ class Series
         $result = $statement->rowCount();
 
         return $result > 0;
-    }
-
-    /**
-     * @return int the score of the series, or -1 if no user has reviewed it
-     */
-    public function getScore(): int
-    {
-        $pdo = ConnectionFactory::getConnection();
-        $query = "select avg(score) as score from series_reviews where id = ?";
-        $statement = $pdo->prepare($query);
-        $statement->bindParam(1, $this->id);
-        $statement->execute();
-        $result = $statement->fetch();
-
-        return $result['score'] ?? -1;
     }
 
     /**
@@ -183,6 +182,12 @@ class Series
         $result = $statement->fetch();
 
         return $result[0] == $this->countEpisodes();
+    }
+
+    private function getEpisodeCount(): int
+    {
+        $born = $this->getBorneEp();
+        return $born['max'] - $born['min'] + 1;
     }
 
     /**

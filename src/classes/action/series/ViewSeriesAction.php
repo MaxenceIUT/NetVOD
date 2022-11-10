@@ -93,16 +93,6 @@ class ViewSeriesAction extends Action
         return $html;
     }
 
-    public function getActionName(): string
-    {
-        return "view-series";
-    }
-
-    public function shouldBeAuthenticated(): bool
-    {
-        return true;
-    }
-
     public function getAvailableGenres(): array
     {
         $pdo = ConnectionFactory::getConnection();
@@ -114,7 +104,6 @@ class ViewSeriesAction extends Action
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     private function getAvailablePublics()
     {
         $pdo = ConnectionFactory::getConnection();
@@ -124,6 +113,16 @@ class ViewSeriesAction extends Action
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getActionName(): string
+    {
+        return "view-series";
+    }
+
+    public function shouldBeAuthenticated(): bool
+    {
+        return true;
     }
 
 }

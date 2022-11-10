@@ -43,4 +43,5 @@ class ShowEpisodeDetailsAction extends Action
     {
         return true;
     }
+    
 }
