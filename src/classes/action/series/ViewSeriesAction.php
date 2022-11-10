@@ -25,19 +25,19 @@ class ViewSeriesAction extends Action
             $html = <<<END
             <h1>Catalogue des séries<br></h1>
             END;
-                $html .= <<<END
+            $html .= <<<END
                 <form action="index.php?action=view-series" method="post">
                     <label for='select-genre'>Genre</label>
                     <select name="genre">
                         <option value="all">Tous les genres</option>
                 END;
 
-                foreach ($genres as $genre) {
-                    $nomGenre = $genre['genre'];
-                    $html .= "<option value='$nomGenre'>$nomGenre</option>";
-                }
+            foreach ($genres as $genre) {
+                $nomGenre = $genre['genre'];
+                $html .= "<option value='$nomGenre'>$nomGenre</option>";
+            }
 
-                $html .= <<<END
+            $html .= <<<END
                     </select> 
                     <input type="submit" value="Rechercher">  
                 </form>
@@ -48,12 +48,12 @@ class ViewSeriesAction extends Action
                         <option value="all">Tous public</option>
                 END;
 
-                foreach ($public as $pub) {
-                    $nomPublic = $pub['type_public'];
-                    $html .= "<option value='$nomPublic'>$nomPublic</option>";
-                }
+            foreach ($public as $pub) {
+                $nomPublic = $pub['type_public'];
+                $html .= "<option value='$nomPublic'>$nomPublic</option>";
+            }
 
-                $html .= <<<END
+            $html .= <<<END
                     </select> 
                     <input type="submit" value="Rechercher">  
                 </form>
@@ -62,27 +62,27 @@ class ViewSeriesAction extends Action
                 <form action="index.php?action=view-series" method="post">
                     <label for='select-sort'>Trier par</label>
                 END;
-                
-                $html .= "<select name='sort'>";
-                for ($i = 0; $i < count($sorts); $i++) {
-                    $html .= "<option value='$sorts[$i]'>$text[$i]</option>";
-                    $html .= "</select>";
-                }
 
-                if ($i == 'true') {
-                    $html .= <<<END
+            $html .= "<select name='sort'>";
+            for ($i = 0; $i < count($sorts); $i++) {
+                $html .= "<option value='$sorts[$i]'>$text[$i]</option>";
+                $html .= "</select>";
+            }
+
+            if ($i == 'true') {
+                $html .= <<<END
                         <label for="i">Inverser l'ordre</label>
                         <input type="checkbox" name="i" id="i" checked>
                         <input type="submit" value="Trier">
                     END;
-                } else {
-                    $html .= <<<END
+            } else {
+                $html .= <<<END
                         <label for="i">Inverser l'ordre</label>
                         <input type = "checkbox" name = "i" id = "i" >
                         <input type = "submit" value = "Trier" >
                     </form>
                     END;
-                }
+            }
             $seeGenre = "";
             $param = [];
             if (isset($_GET['genre'])) {
