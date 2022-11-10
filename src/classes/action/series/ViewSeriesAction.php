@@ -65,7 +65,7 @@ class ViewSeriesAction extends Action
 
             $html .= "<select name='sort'>";
             for ($increment = 0; $increment < count($sorts); $increment++) {
-                if ($sorts[$i] == $sort) {
+                if ($sorts[$increment] == $sort) {
                     $html .= "<option value='$sorts[$increment]' selected>$text[$increment]</option>";
                 } else {
                     $html .= "<option value='$sorts[$increment]'>$text[$increment]</option>";
