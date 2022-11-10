@@ -133,7 +133,7 @@ class Series
     }
 
 
-    public function isAlreadySee(User $user): bool
+    public function isAlreadySeenBy(User $user): bool
     {
         $pdo = ConnectionFactory::getConnection();
         $sql = "select count(*) from watched_episodes where email = ? and id in (select id from episode where serie_id = ?)";

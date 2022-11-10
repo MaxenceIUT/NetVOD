@@ -24,7 +24,7 @@ class DisplayAlreadySeeAction extends Action
 
         $SerieList = Series::getAll();
         foreach ($SerieList as $series) {
-            if ($series->isAlreadySee($user)) {
+            if ($series->isAlreadySeenBy($user)) {
                 $renderer = new SeriesRenderer($series);
                 $html .= $renderer->render(Renderer::COMPACT);
             }
