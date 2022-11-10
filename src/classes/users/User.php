@@ -36,6 +36,25 @@ class User
         return null;
     }
 
+    /**
+     * Method to create a user (like a constructor)
+     * @param string $email User email
+     * @return User|null User object or null if not found
+     */
+    public static function findByEmail(string $email): ?User
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $query = "select * from users where email = ?";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(1, $email);
+        $statement->execute();
+        if ($statement->rowCount() == 0) {
+            return null;
+        }
+        $user = $statement->fetchObject(User::class);
+        return $user;
+    }
+
     public function __get($name)
     {
         if (property_exists($this, $name)) {

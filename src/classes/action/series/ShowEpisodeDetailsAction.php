@@ -42,6 +42,6 @@ class ShowEpisodeDetailsAction extends Action
 
     public function shouldBeAuthenticated(): bool
     {
-        return false;
+        return true;
     }
 }

@@ -6,7 +6,9 @@ use iutnc\netvod\action\account\AccountAction;
 use iutnc\netvod\action\account\ActivateAccountAction;
 use iutnc\netvod\action\account\LoginAction;
 use iutnc\netvod\action\account\LogoutAction;
+use iutnc\netvod\action\account\PasswordForget;
 use iutnc\netvod\action\account\RegisterAction;
+use iutnc\netvod\action\account\ResetPassword;
 use iutnc\netvod\action\account\UserHomeAction;
 use iutnc\netvod\action\Action;
 use iutnc\netvod\action\api\AddFavoriteSerieAction;
@@ -42,6 +44,9 @@ class Dispatcher
             new DisplayFavoritesSeriesAction(),
             new ShowEpisodeDetailsAction(),
             new ShowSerieDetailsAction(),
+            new ShowReviewsAction(),
+            new PasswordForget(),
+            new ResetPassword(),
             new ShowReviewsAction(),
             new ActivateAccountAction()
         );

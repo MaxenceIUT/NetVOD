@@ -22,6 +22,8 @@ class LoginAction extends Action
             <input type="password" name="password" id="password" required minlength="8" maxlength="128">
             <input type="submit" value="Se connecter">
         </form>
+        <a href="index.php?action=password-forget">Mot de passe oublie</a>
+
         END;
     }
 
@@ -49,10 +51,13 @@ class LoginAction extends Action
                 </div>
                 $this->loginForm
                 END;
+                $html .= $e->getMessage();
+                return $html;
             }
         } else {
             return "Méthode non autorisée";
         }
+        return "";
     }
 
     public function getActionName(): string

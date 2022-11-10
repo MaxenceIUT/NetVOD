@@ -88,4 +88,25 @@ class Auth
         return "index.php?action=activate-account&email=$email&token=$activationToken";
     }
 
+    public static function changePassword($email, $password)
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $sql = "UPDATE users SET password = :password WHERE email = :email";
+        $statement = $pdo->prepare($sql);
+
+        $hash = self::verifPassword($password);
+        $statement->bindParam(":email", $email);
+        $statement->bindParam(":password", $hash);
+        $statement->execute();
+
+    }
+
+    public static function verifPassword($password): string
+    {
+        if (strlen($password) < 8 || strlen($password) > 128) throw new RegisterException("Le mot de passe doit faire entre 8 et 128 caractères");
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        return $hash;
+
+    }
+
 }
