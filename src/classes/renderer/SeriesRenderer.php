@@ -24,38 +24,44 @@ class SeriesRenderer implements Renderer
     {
         if ($mode == self::FULL) {
             $html = <<<END
-            <h3>{$this->series->titre}</h3>
-            <img src="assets/img/{$this->series->image}" alt="Image de la série {$this->series->titre}">
-            <p>{$this->series->descriptif}</p>
+            <div class="series series__full">
+                <img class="background" src="assets/img/series/{$this->series->img}" alt="Image de la série {$this->series->titre}">
+                <h1>{$this->series->titre} <span>{$this->series->annee}</span></h1>
+                <p>{$this->series->descriptif}</p>
             END;
 
             $user = Auth::getCurrentUser();
             if ($user != null) {
                 if ($this->series->isBookmarkedBy($user)) {
-                    $html .= "<a href='index.php?action=show-series-details&id={$this->series->id}&bookmark=false'>Retirer des favoris</a>";
+                    $html .= <<<END
+                    <a class="button-link button-link__red button-link__plain" href='index.php?action=show-series-details&id={$this->series->id}&bookmark=false'>Retirer des favoris</a>
+                    END;
                 } else {
-                    $html .= "<a href='index.php?action=show-series-details&id={$this->series->id}&bookmark=true'>Ajouter aux favoris</a>";
+                    $html .= <<<END
+                    <a class="button-link button-link__plain" href='index.php?action=show-series-details&id={$this->series->id}&bookmark=true'>Ajouter aux favoris</a>
+                    END;
                 }
             }
 
             $score = $this->series->getScore();
             $score = $score == -1 ? "N/A" : $score;
 
+            $reviewCount = count($this->series->getReviews());
+
             $html .= <<<END
-            <p>Année: {$this->series->annee}</p>
-            <p>Date d'ajout: {$this->series->date_ajout}</p>
-            <div class="reviews">
-                <h4>Note: $score</h4>
-                <a href="index.php?action=show-reviews&id={$this->series->id}">Voir les avis</a>            
-            </div>
+                <div class="reviews">
+                    <h5>$score<span>/10</span></h5>
+                    <a class="button-link button-link__text" href="index.php?action=show-reviews&id={$this->series->id}">Voir les {$reviewCount} avis</a>            
+                </div>
             END;
 
             $episodes = Episode::getAllEpisodesFromSerie($this->series->id);
             $episodeCount = count($episodes);
 
             $html .= <<<END
-            <p>$episodeCount épisodes</p>
-            <ul>
+                <div class="episodes">
+                    <p>$episodeCount épisodes</p>
+                    <ul>
             END;
 
             foreach ($episodes as $episode) {
@@ -63,16 +69,20 @@ class SeriesRenderer implements Renderer
                 $html .= $renderEpisode->render(Renderer::COMPACT);
             }
 
-            $html .= "</ul>";
+            $html .= <<<END
+                    </ul>
+                </div>
+                <p class="available">Disponible sur NetVOD depuis le {$this->series->date_ajout}</p>
+            </div>
+            END;
             return $html;
         } else {
             return <<<END
-            <ul>
-                <div class="serie">
-                    <li><a href="index.php?action=show-series-details&id={$this->series->id}">{$this->series->titre}</a></li>
-                    <img src="{$this->series->image}" alt="Image de la série {$this->series->titre}">
-                </div>
-            </ul>
+            <a class="series" href="index.php?action=show-series-details&id={$this->series->id}">
+                <h4>{$this->series->titre}</h4>
+                <p>{$this->series->descriptif}</p>
+                <img src="assets/img/series/{$this->series->img}" alt="Image de la série {$this->series->titre}">
+            </a>
             END;
         }
     }

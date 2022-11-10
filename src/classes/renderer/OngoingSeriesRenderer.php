@@ -39,12 +39,11 @@ class OngoingSeriesRenderer implements Renderer
         }
 
         return <<<END
-            <ul>
-                <div class="serie">
-                    <li><a href="$link">Reprendre {$this->series->titre}</a></li>
-                    <img src="{$this->series->image}" alt="Image de la série {$this->series->titre}">
-                </div>
-            </ul>
+            <a class="series" href="$link">
+                <h4>{$this->series->titre}</h4>
+                <p>{$this->series->descriptif}</p>
+                <img src="assets/img/series/{$this->series->img}" alt="Image de la série {$this->series->titre}">
+            </a>
             END;
     }
 

@@ -130,7 +130,7 @@ class Dispatcher
         $user = Auth::getCurrentUser();
         $header = <<<END
             <div class="logo">
-                <span>NetVOD</span>            
+                <a href="index.php">NetVOD</a>            
             </div>
             <div class="menu">
         END;
@@ -142,9 +142,9 @@ class Dispatcher
             END;
         } else {
             $header .= <<<END
-                <a href="index.php?action=view-series">Consulter le catalogue</a>
-                <a href="index.php?action=home">Mon compte</a>
-                <a href="index.php?action=logout">Se déconnecter</a>
+                <a class="button-link button-link__text" href="index.php?action=home">Mon compte</a>
+                <a class="button-link button-link__text" href="index.php?action=view-series">Consulter le catalogue</a>
+                <a class="button-link button-link__red button-link__text" href="index.php?action=logout">Se déconnecter</a>
             END;
         }
 

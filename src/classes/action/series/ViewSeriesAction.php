@@ -12,7 +12,10 @@ class ViewSeriesAction extends Action
 
     public function execute(): string
     {
-        $html = "";
+        $html = <<<END
+            <h1>Catalogue des séries<br></h1>
+            <div class="items">
+        END;
         if ($this->http_method == "GET") {
             $html .= <<<END
                 <form action="index.php?action=view-series" method="post">
@@ -39,6 +42,7 @@ class ViewSeriesAction extends Action
                 <input type="submit" value="Rechercher">  
             </form>
             END;
+
             $seriesList = Series::getAll();
             if (isset($_POST['genre']) && $_POST['public']) {
                 $html .= "tasoeur";
@@ -79,6 +83,7 @@ class ViewSeriesAction extends Action
             header($header);
         }
 
+        $html .= "</div>";
         return $html;
     }
 
