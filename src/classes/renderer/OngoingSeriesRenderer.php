@@ -65,7 +65,7 @@ class OngoingSeriesRenderer implements Renderer
         $stmt->bindParam(2, $idSerie);
         $nbEp = count($this->series->getAll());
 
-        $borne = $this->idMinMaxEpisode();
+        $borne = $this->series->getBorneEp();
         for ($i = $borne['min']; $i <= $borne['max']; $i++) {
             $stmt->bindParam(3, $i);
             $stmt->execute();
@@ -76,20 +76,5 @@ class OngoingSeriesRenderer implements Renderer
         return 0;
     }
 
-    /**
-     * Get the id of the first and the last episode of the serie
-     * @return array the id of the first and the last episode
-     */
-    public function idMinMaxEpisode(): array
-    {
-        $pdo = ConnectionFactory::getConnection();
-        $sql = "select min(id), max(id) from episode where serie_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $idSerie = $this->series->id;
-        $stmt->bindParam(1, $idSerie);
-        $stmt->execute();
-        $result = $stmt->fetch();
-        return ['min' => $result[0], 'max' => $result[1]];
-    }
 
 }

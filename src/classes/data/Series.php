@@ -94,6 +94,22 @@ class Series
         return $statement->fetchAll(PDO::FETCH_CLASS, Review::class);
     }
 
+    /**
+     * Get the id of the first and the last episode of the serie
+     * @return array the id of the first and the last episode
+     */
+    public function getBorneEp(): array
+    {
+        $pdo = ConnectionFactory::getConnection();
+        $sql = "select min(id), max(id) from episode where serie_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $idSerie = $this->series->id;
+        $stmt->bindParam(1, $idSerie);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return ['min' => $result[0], 'max' => $result[1]];
+    }
+
     public function __get($name)
     {
         return $this->$name;
