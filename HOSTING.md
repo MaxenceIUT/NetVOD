@@ -14,11 +14,20 @@ You can use the following .htaccess file to configure your Apache web server:
 ```apacheconf
 Options -Indexes
 
-Order Deny,Allow
-Deny from all
+RewriteEngine On
+RewriteRule ^sql(/.*|)$ - [NC,F]
+RewriteRule ^src(/.*|)$ - [NC,F]
+RewriteRule ^vendor(/.*|)$ - [NC,F]
 
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
 
-<FilesMatch "^((index)\.php)?$">  # Basically, it accepts the three PHP files and the empty string.
-    Allow from all
+<FilesMatch "\.(ini|sql)$">
+  Order allow,deny
+  Deny from all
 </FilesMatch>
 ```
+
+> This blocks access to .ini and .sql files, and the sql/, src/ and vendor/ directories
