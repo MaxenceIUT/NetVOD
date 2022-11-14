@@ -30,8 +30,8 @@ class AddComment extends Action
             END;
         } else {
             $user = Auth::getCurrentUser();
-            $comment = filter_var($_POST['comment'], FILTER_UNSAFE_RAW);
-            $notation = filter_var($_POST['notation'], FILTER_VALIDATE_INT);
+            $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
+            $notation = filter_var($_POST['notation'], FILTER_SANITIZE_NUMBER_INT);
             if ($notation < 0 && $notation > 10) {
                 return "Mauvaise notation";
             }
