@@ -32,7 +32,7 @@ class AddComment extends Action
             $user = Auth::getCurrentUser();
             $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
             $notation = filter_var($_POST['notation'], FILTER_SANITIZE_NUMBER_INT);
-            if ($notation < 0 && $notation > 10) {
+            if ($notation < 0 || $notation > 10) {
                 return "Mauvaise notation";
             }
             $review = Review::create($user->email, $episode->serie_id, $notation, $comment);
