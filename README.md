@@ -8,7 +8,7 @@ This repository contains the code of our NetVOD app, built by:
 
 ## ❓ What exactly is NetVOD?
 
-NetVOD is a video streaming platform, where you can watch series, post reviews, organize your viewing list with an automatic sorting of ongoing and completed series, as well as a bookmarking system allowing you to easily find your favorite series.
+NetVOD is a **video streaming platform**, where you can watch series, post reviews, organize your viewing list with an automatic sorting of ongoing and completed series, as well as a bookmarking system allowing you to easily find your favorite series.
 
 ## 📝 Main features
 
@@ -24,11 +24,11 @@ NetVOD is a video streaming platform, where you can watch series, post reviews, 
 Here's a summary of the tech stack used in this project:
 | Name | Version | Description |
 |------|---------|-------------|
-| [PHP](https://www.php.net/) | 8.0.25 (Webetu restriction) | We use PHP for the backend of our application and also the frontend (at least HTML is generated via PHP). It manages our authentication system, our database connection and the different pages of our application |
-| [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) | 5 | We use HTML to structure the pages of our application, as it is required for a web application. We tried to follow a pretty logical structure in terms of semantics so that our website is accessible to everyone. |
-| [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) | 3 | We used CSS to style our pages. We thought about using some utility-driven CSS framework, like [TailwindCSS](https://tailwindcss.com/), but we decided to stick to a more traditional approach since Tailwind felt a bit overkill. |
-| [MariaDB](https://mariadb.org/) | 10.5 | We use MariaDB as our database, since it is the database used for Webetu. It is a fork of MySQL, which is a relational database management system. We use it to store our users' data, as well as the episodes and series they watch, their bookmarks, etc. |
-| [Apache](https://httpd.apache.org/) | 2.4.6 (Webetu restriction) | We use Apache as our web server, since it is the web server used for Webetu. When deploying our app on Webetu, we configured our .htaccess file to only allow requests to our index.php file (which is the entry point of our application) and the assets directory which contains series |
+| [PHP](https://www.php.net/) | 8.0.25 (Webetu restriction) | PHP is used for the backend of our application. It generates the HTML based on the page the user is on. |
+| [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) | 5 | HTML is the standard markup language for creating web pages. The HTML structure of our application follows semantic rules, to ensure a good SEO and accessibility. |
+| [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) | 3 | CSS is the standard choice when it comes to styling a web page. We thought about using some utility-driven CSS framework, like [TailwindCSS](https://tailwindcss.com/), but we decided to stick to a more traditional approach since Tailwind felt a bit overkill for the size of our website. |
+| [MariaDB](https://mariadb.org/) | 5.5.68 | MariaDB is the database used on Webetu which is why we had to stick with it. It stores our users' data, as well as the episodes and series they watch, their bookmarks, etc. |
+| [Apache](https://httpd.apache.org/) | 2.4.6 (Webetu restriction) | Apache is the web server used on Webetu. When deploying our app on Webetu, we configured our .htaccess file to only allow requests to our index.php file (which is the entry point of our application) and the assets directory which contains series. That way, we can't access any other file on the server such as the database credentials or the source code. |
 
 ## Tasks
 
