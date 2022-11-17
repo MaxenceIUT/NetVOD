@@ -5,14 +5,14 @@
 NetVOD is a free and open source project. You can host your own instance of NetVOD on your own server. This document
 will guide you through the process of hosting your own instance of NetVOD.
 
-## Requirements
+## 📜 Requirements
 
 - A web server (Apache, Nginx, etc.)
 - PHP installed on your web server, version 8.0.25 or higher
 - A MariaDB database, version 5.5.68 or higher
 - Composer installed on your web server
 
-## Web server configuration
+## 🌐 Web server configuration
 
 ### Apache
 
@@ -39,7 +39,7 @@ RewriteRule ^vendor(/.*|)$ - [NC,F]
 
 > This blocks access to .ini and .sql files, and the sql/, src/ and vendor/ directories
 
-## Database configuration
+## 🗂️ Database configuration
 
 In order for the website to work, you have to configure a database.
 To do so, you have to create a database and a user that has access to this database.
@@ -53,6 +53,6 @@ Once your tables are created, follow those steps:
 
 ✅ Congratulations! Your website should now work!
 
-## Any questions?
+## ❓ Any questions?
 
 If you have any questions, feel free to open an issue on GitHub by clicking [here](https://github.com/MaxenceIUT/NetVOD/issues/new/).
