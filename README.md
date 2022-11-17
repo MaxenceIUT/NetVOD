@@ -32,17 +32,17 @@ Here's a summary of the tech stack used in this project:
 
 ## ❓ How to access our application
 
-### If you want to test our website, and don't want to register yet, you can use the following credentials to access a test account:
+If you want to test our website, and don't want to register yet, you can use the following credentials to access a test account:
 
-Email : `test@test.com`
-
-Password: `password`
+**Email**: `test@test.com`
+<br>
+**Password**: `password`
 
 ## 🏭 How to deploy our application
 
 For a full guide on how to deploy our application, please refer to the [HOSTING.md](HOSTING.md) file.
 
-## Tasks
+## 📜 Tasks
 
 | Task| Author | Comment | Type 
 |--|--|--|--|
