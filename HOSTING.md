@@ -48,8 +48,8 @@ To do so, you have to create a database and a user that has access to this datab
 
 Once you have created the database and the user, you have to create the tables (which are located in the sql/ directory, currently incomplete).
 Once your tables are created, follow those steps:
-- `cp db.config.example.ini db.config.ini`
-- Edit the `db.config.ini` file and fill in the database credentials
+1. `cp db.config.example.ini db.config.ini`
+2. Edit the `db.config.ini` file and fill in the database credentials
 
 ✅ Congratulations! Your website should now work!
 
